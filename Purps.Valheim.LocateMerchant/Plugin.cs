@@ -2,10 +2,9 @@
 using HarmonyLib;
 
 namespace Purps.Valheim.LocateMerchant {
-
     [BepInPlugin(pluginGuid, pluginName, pluginVersion)]
     [BepInProcess("valheim.exe")]
-    public class Plugin : BaseUnityPlugin { 
+    public class Plugin : BaseUnityPlugin {
         private const string pluginGuid = "purps.valheim.locatemerchant";
         private const string pluginName = "Locate Merchant";
         private const string pluginVersion = "1.0.0";
@@ -15,5 +14,4 @@ namespace Purps.Valheim.LocateMerchant {
             harmony.PatchAll();
         }
     }
-    
 }
