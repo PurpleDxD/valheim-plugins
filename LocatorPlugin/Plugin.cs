@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using BepInEx;
 using HarmonyLib;
 using Purps.Valheim.Locator.Utils;
 using Purps.Valheim.Utils;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Purps.Valheim.Locator {
     [BepInPlugin(pluginGuid, pluginName, pluginVersion)]
@@ -16,12 +20,20 @@ namespace Purps.Valheim.Locator {
         private const string description = "Finds and pins various Valheim locations / entities on the minimap!";
         private const string author = "Purps";
 
-        public static readonly CommandProcessor Processor = new CommandProcessor();
+        public static CommandProcessor Processor;
 
         private void Awake() {
+            Processor = new CommandProcessor();
             CreateCommands();
             var harmony = new Harmony(pluginGuid);
             harmony.PatchAll();
+        }
+
+        private void OnDestroy() {
+            var harmony = new Harmony(pluginGuid);
+            harmony.UnpatchSelf();
+            Processor.clearCommands();
+            Processor = null;
         }
 
         private static void CreateCommands() {

@@ -10,6 +10,10 @@ namespace Purps.Valheim.Utils {
             Commands.Add(command);
         }
 
+        public void clearCommands() {
+            Commands.Clear();
+        }
+
         public void printCommands(string[] parameters) {
             Commands.FindAll(c => c.ShouldPrint)
                 .ForEach(c => ConsoleUtils.WriteToConsole($"{c.Name} => {c.Description}"));
