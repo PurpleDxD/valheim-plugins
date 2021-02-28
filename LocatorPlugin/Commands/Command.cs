@@ -1,0 +1,24 @@
+﻿using System;
+using System.Linq;
+
+namespace Purps.Valheim.Utils {
+    public class Command : ICommand {
+        public Command(string name, string description, Action<string[]> action, bool shouldPrint = true) {
+            Name = name;
+            Description = description;
+            Action = action;
+            ShouldPrint = shouldPrint;
+        }
+
+        public string Name { get; }
+        public string Description { get; }
+        public Action<string[]> Action { get; }
+        public bool ShouldPrint { get; }
+
+        public void Execute(string commandStr) {
+            var sanitizedCommandStr =
+                string.Join(" ", commandStr.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
+            Action.Invoke(sanitizedCommandStr.Split(' ').Skip(1).ToArray());
+        }
+    }
+}

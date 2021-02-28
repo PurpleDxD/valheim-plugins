@@ -16,3 +16,6 @@ Desktop.ini
 .DS_Store
 
 **/Libraries/**/*.dll
+**/Properties/**/*.cs
+/ValheimUtils/Properties/AssemblyInfo.cs
+/LocatorPlugin/packages.config
