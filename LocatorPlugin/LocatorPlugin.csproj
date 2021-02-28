@@ -8,8 +8,8 @@
         <ProjectGuid>{73A7AD8F-00F2-4415-9082-8781FF6BFE4C}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>Purps.Valheim.LocateMerchant</RootNamespace>
-        <AssemblyName>LocatorPlugin</AssemblyName>
+        <RootNamespace>Purps.Valheim.Locator</RootNamespace>
+        <AssemblyName>Locator</AssemblyName>
         <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
     </PropertyGroup>

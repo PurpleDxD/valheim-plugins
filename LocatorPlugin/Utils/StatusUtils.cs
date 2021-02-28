@@ -1,6 +1,6 @@
 ﻿using Purps.Valheim.Locator.Patches;
 
-namespace Purps.Valheim.LocateMerchant.Utils {
+namespace Purps.Valheim.Locator.Utils {
     public static class StatusUtils {
         public static bool isPlayerLoaded() {
             if (Player.m_localPlayer != null) return true;

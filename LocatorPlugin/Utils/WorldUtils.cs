@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using Purps.Valheim.LocateMerchant.Utils;
 using Purps.Valheim.Locator.Patches;
 using UnityEngine;
 
@@ -44,7 +43,7 @@ namespace Purps.Valheim.Locator.Utils {
                 locations = locations.FindAll(location => parameters.Contains(location.m_location.m_prefabName));
 
             locations.ForEach(location =>
-                ConsoleUtils.WriteToConsole($"{location.m_location.m_prefabName}\t\t{location.m_position}"));
+                ConsoleUtils.WriteToConsole(location.m_location.m_prefabName, location.m_position.ToString()));
         }
 
         public static void ListPins(string[] parameters) {
@@ -54,7 +53,7 @@ namespace Purps.Valheim.Locator.Utils {
                 pins = pins.FindAll(pin => parameters.Contains(pin.m_name));
 
             pins.ForEach(pin =>
-                ConsoleUtils.WriteToConsole($"name:{pin.m_name}\t\tpos:{pin.m_pos}\t\ticon:{pin.m_icon.name}"));
+                ConsoleUtils.WriteToConsole(pin.m_name, pin.m_pos.ToString(), pin.m_icon.name));
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Purps.Valheim.Locator {
                 Processor.printCommands, false));
 
             Processor.addCommand(new Command("/locatemerchant", "Pins the BlackForest Merchant on your Minimap.",
-                parameters => WorldUtils.Locate(Minimap.PinType.None, new List<Tuple<string, string>> {
+                parameters => WorldUtils.Locate(Minimap.PinType.Icon3, new List<Tuple<string, string>> {
                     Tuple.Create("Vendor_BlackForest", "Merchant")
                 })));
             Processor.addCommand(new Command("/locatebosses", "Pins all boss altars on your Minimap.",
