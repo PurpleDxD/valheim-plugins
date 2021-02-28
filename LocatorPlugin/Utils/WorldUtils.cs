@@ -30,10 +30,19 @@ namespace Purps.Valheim.Locator.Utils {
             return mapPoints;
         }
 
-        public static void Locate(Minimap.PinType pinType, List<Tuple<string, string>> names) {
+        public static void Locate(Minimap.PinType pinType, List<Tuple<string, string>> names, bool multiple) {
             if (!StatusUtils.isPlayerLoaded()) return;
             foreach (var name in names)
-                MapPoints.ForEach(p => Game.instance.DiscoverClosestLocation(name.Item1, p, name.Item2, (int) pinType));
+                if (multiple) {
+                    MapPoints.ForEach(p => Locate(name, p, pinType));
+                }
+                else {
+                    Locate(name, Player.m_localPlayer.transform.position, pinType);
+                }
+        }
+
+        private static void Locate(Tuple<string, string> name, Vector3 position, Minimap.PinType pinType) {
+            Game.instance.DiscoverClosestLocation(name.Item1, position, name.Item2, (int) pinType);
         }
 
         public static void ListLocations(string[] parameters) {
