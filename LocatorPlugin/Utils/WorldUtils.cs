@@ -33,12 +33,10 @@ namespace Purps.Valheim.Locator.Utils {
         public static void Locate(Minimap.PinType pinType, List<Tuple<string, string>> names, bool multiple) {
             if (!StatusUtils.isPlayerLoaded()) return;
             foreach (var name in names)
-                if (multiple) {
+                if (multiple)
                     MapPoints.ForEach(p => Locate(name, p, pinType));
-                }
-                else {
+                else
                     Locate(name, Player.m_localPlayer.transform.position, pinType);
-                }
         }
 
         private static void Locate(Tuple<string, string> name, Vector3 position, Minimap.PinType pinType) {
@@ -49,7 +47,8 @@ namespace Purps.Valheim.Locator.Utils {
             if (!StatusUtils.isPlayerLoaded() || !StatusUtils.isPlayerOffline()) return;
             var locations = MapLocations;
             if (parameters != null && parameters.Length > 0)
-                locations = locations.FindAll(location => parameters.Contains(location.m_location.m_prefabName));
+                locations = locations.FindAll(location =>
+                    parameters.Contains(location.m_location.m_prefabName.Replace(' ', '-')));
 
             locations.ForEach(location =>
                 ConsoleUtils.WriteToConsole(location.m_location.m_prefabName, location.m_position.ToString()));
@@ -59,7 +58,7 @@ namespace Purps.Valheim.Locator.Utils {
             if (!StatusUtils.isPlayerLoaded()) return;
             var pins = MapPins;
             if (parameters != null && parameters.Length > 0)
-                pins = pins.FindAll(pin => parameters.Contains(pin.m_name));
+                pins = pins.FindAll(pin => parameters.Contains(pin.m_name.Replace(' ', '_')));
 
             pins.ForEach(pin =>
                 ConsoleUtils.WriteToConsole(pin.m_name, pin.m_pos.ToString(), pin.m_icon.name));
