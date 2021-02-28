@@ -34,7 +34,7 @@ namespace Purps.Valheim.Locator.Utils {
             if (!StatusUtils.isPlayerLoaded()) return;
             foreach (var name in names)
                 if (multiple)
-                    MapPoints.ForEach(p => Locate(name, p, pinType));
+                    MapPoints.ForEach(point => Locate(name, point, pinType));
                 else
                     Locate(name, Player.m_localPlayer.transform.position, pinType);
         }
@@ -62,6 +62,12 @@ namespace Purps.Valheim.Locator.Utils {
 
             pins.ForEach(pin =>
                 ConsoleUtils.WriteToConsole(pin.m_name, pin.m_pos.ToString(), pin.m_icon.name));
+        }
+
+        public static void clearPins(string[] parameters) {
+            new List<Minimap.PinData>(MapPins)
+                .FindAll(pin => pin.m_icon.name != "mapicon_start" && pin.m_icon.name != "mapicon_trader")
+                .ForEach(pin => Minimap.instance.RemovePin(pin));
         }
     }
 }

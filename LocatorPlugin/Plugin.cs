@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using BepInEx;
 using HarmonyLib;
 using Purps.Valheim.Locator.Utils;
 using Purps.Valheim.Utils;
-using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Purps.Valheim.Locator {
     [BepInPlugin(pluginGuid, pluginName, pluginVersion)]
@@ -57,8 +53,10 @@ namespace Purps.Valheim.Locator {
             Processor.addCommand(new Command("/listlocations",
                 "Lists all the locations in the Console. Does not work on servers.",
                 WorldUtils.ListLocations));
-            Processor.addCommand(new Command("/listpins", "Lists all the Pins in the Console.",
+            Processor.addCommand(new Command("/listpins", "Lists all your Pins in the Console.",
                 WorldUtils.ListPins));
+            Processor.addCommand(new Command("/clearpins", "Clears all your Pins.",
+                WorldUtils.clearPins));
         }
     }
 }

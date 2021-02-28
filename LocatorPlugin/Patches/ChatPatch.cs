@@ -7,7 +7,6 @@ namespace Purps.Valheim.Locator.Patches {
         public static void Postfix(Chat __instance) {
             var commandStr = __instance.m_input.text;
             if (!string.IsNullOrWhiteSpace(commandStr)) Plugin.Processor.executeCommand(__instance.m_input.text);
-            
         }
     }
 }
