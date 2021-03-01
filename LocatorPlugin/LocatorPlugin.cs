@@ -33,7 +33,7 @@ namespace Purps.Valheim.Locator {
             var harmony = new Harmony(pluginGuid);
             harmony.PatchAll();
         }
-        
+
         private void Update() {
             MinimapUtils.Update();
         }
@@ -41,11 +41,13 @@ namespace Purps.Valheim.Locator {
         protected override void OnDestroy() {
             var harmony = new Harmony(pluginGuid);
             harmony.UnpatchSelf();
+            MinimapUtils.TrackedObjects.Clear();;
+            Config = null;
             Processor.clearCommands();
             Processor = null;
             MinimapUtils.ClearTrackedComponents();
         }
-        
+
         private static void CreateCommands() {
             Processor.addCommand(new Command("/locator-commands",
                 "Displays all commands provided by the Locator plugin.",

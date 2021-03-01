@@ -102,8 +102,8 @@
 
     <Import Project="..\packages\ILMerge.MSBuild.Task.1.0.7\build\ILMerge.MSBuild.Task.targets" Condition="Exists('..\packages\ILMerge.MSBuild.Task.1.0.7\build\ILMerge.MSBuild.Task.targets')" />
 
-    <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release'">
+    <!-- <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release'">
         <Copy SourceFiles="D:\Stuff\Programming\c#\Projects\Unity\Plugins\Valheim\Valheim-Plugins\SkipIntroPlugin\bin\Release\ILMerge\SkipIntro.dll" DestinationFolder="C:\Users\Justyn\AppData\Roaming\r2modmanPlus-local\Valheim\profiles\Default\BepInEx\scripts" />
-    </Target>
+    </Target> -->
     
 </Project>

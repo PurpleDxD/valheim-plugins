@@ -1,47 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BepInEx;
 using HarmonyLib;
 using Purps.Valheim.Framework.Utils;
 using UnityEngine;
 
 namespace Purps.Valheim.Locator.Utils {
     public static class MinimapUtils {
-        private static readonly List<Tuple<string, string>> TrackedObjects = new List<Tuple<string, string>> {
-            // Destructibles
-            Tuple.Create("BlueberryBush", "Blueberry"),
-            Tuple.Create("CloudberryBush", "Cloudberry"),
-            Tuple.Create("RaspberryBush", "Raspberry"),
-            Tuple.Create("MineRock_Tin", "Tin"),
-            Tuple.Create("rock4_copper", "Copper"),
-            Tuple.Create("MineRock_Obsidian", "Obsidian"),
-
-            // Pickables
-            Tuple.Create("Pickable_Thistle", "Thistle"),
-            Tuple.Create("Pickable_Mushroom", "Mushroom"),
-            Tuple.Create("Pickable_SeedCarrot", "Carrot"),
-            Tuple.Create("Pickable_Dandelion", "Dandelion"),
-            Tuple.Create("Pickable_SeedTurnip", "Turnip"),
-
-            // Leviathans
-            Tuple.Create("Leviathan", "Leviathan"),
-
-            // Locations
-            Tuple.Create("TrollCave", "Troll"),
-            Tuple.Create("Crypt", "Crypt"),
-            Tuple.Create("SunkenCrypt", "Crypt"),
-            Tuple.Create("Grave", "Grave"),
-            Tuple.Create("DrakeNest", "Egg"),
-            Tuple.Create("Runestone", "Runestone"),
-            Tuple.Create("Eikthyrnir", "Eikthyr"),
-            Tuple.Create("GDKing", "The Elder"),
-            Tuple.Create("Bonemass", "Bonemass"),
-            Tuple.Create("Dragonqueen", "Moder"),
-            Tuple.Create("GoblinKing", "Yagluth"),
-
-            // Spawners
-            Tuple.Create("Spawner", "Spawner")
-        };
+        public static readonly Dictionary<Type, Tuple<bool, List<TrackedObject>>> TrackedObjects =
+            new Dictionary<Type, Tuple<bool, List<TrackedObject>>> {
+                {
+                    typeof(Destructible),
+                    Tuple.Create(LocatorPlugin.Config.AutoPinDestructibles, LocatorPlugin.Config.DestructibleInclusions)
+                }, {
+                    typeof(Location),
+                    Tuple.Create(LocatorPlugin.Config.AutoPinLocations, LocatorPlugin.Config.LocationInclusions)
+                }, {
+                    typeof(Pickable),
+                    Tuple.Create(LocatorPlugin.Config.AutoPinPickables, LocatorPlugin.Config.PickableInclusions)
+                }, {
+                    typeof(SpawnArea),
+                    Tuple.Create(LocatorPlugin.Config.AutoPinSpawners, LocatorPlugin.Config.SpawnerInclusions)
+                }, {
+                    typeof(Leviathan),
+                    Tuple.Create(LocatorPlugin.Config.AutoPinLeviathans, LocatorPlugin.Config.LeviathanInclusions)
+                }
+            };
 
         private static readonly HashSet<Component> TrackedComponents = new HashSet<Component>();
 
@@ -90,36 +75,31 @@ namespace Purps.Valheim.Locator.Utils {
             TrackedComponents.Clear();
         }
 
-        public static void AddTrackedPin(Component component) {
+        public static void AddTrackedPin(Component component, List<TrackedObject> trackedObjects) {
             if (!IsMinimapAvailable()) return;
-            var trackedObject = Track(component);
+            var trackedObject = Track(component, trackedObjects);
             if (trackedObject == null) return;
-            AddPin(trackedObject.Item2, component.transform.position, GetPinType(component));
+            AddPin(trackedObject.PinName, component.transform.position, GetPinType(component));
         }
 
         private static Minimap.PinType GetPinType(Component component) {
             switch (component) {
-                case Destructible destructible:
-                    return Minimap.PinType.Icon3;
-                case Location location:
-                    return Minimap.PinType.Icon3;
                 default:
                     return Minimap.PinType.Icon3;
             }
         }
 
-        private static Tuple<string, string> GetTrackedObject(Component component) {
-            return TrackedObjects.FirstOrDefault(name => component.name.StartsWith(name.Item1));
+        private static TrackedObject GetTrackedObject(Component component, List<TrackedObject> trackedObjects) {
+            return trackedObjects.FirstOrDefault(trackedObject => component.name.StartsWith(trackedObject.Name));
         }
 
-        private static Tuple<string, string> Track(Component component) {
+        private static TrackedObject Track(Component component, List<TrackedObject> trackedObjects) {
             if (!IsMinimapAvailable()) return null;
-
-            var trackedObject = GetTrackedObject(component);
+            var trackedObject = GetTrackedObject(component, trackedObjects);
             if (trackedObject == null) return trackedObject;
 
             var pinExists = MapPins.FindAll(pin =>
-                    pin.m_name == trackedObject.Item2 &&
+                    pin.m_name == trackedObject.PinName &&
                     Vector2DDistance(pin.m_pos, component.transform.position) < LocatorPlugin.Config.AutoPinDistance)
                 .Count == 0;
 
@@ -130,7 +110,8 @@ namespace Purps.Valheim.Locator.Utils {
 
             var components = TrackedComponents.Where(t =>
                 t != null && component != null &&
-                Vector3.Distance(t.transform.position, component.transform.position) < LocatorPlugin.Config.AutoPinDistance);
+                Vector3.Distance(t.transform.position, component.transform.position) <
+                LocatorPlugin.Config.AutoPinDistance);
 
             if (components.Count() != 0) return pinExists ? trackedObject : null;
 
@@ -145,36 +126,18 @@ namespace Purps.Valheim.Locator.Utils {
         public static void Update() {
             if (!IsMinimapAvailable()) return;
             if (!LocatorPlugin.Config.AutoPin) return;
-
             if (!Physics.Raycast(GameCamera.instance.transform.position, GameCamera.instance.transform.forward,
                 out var hitInfo, 25f, LocatorPlugin.CastMask)) return;
 
-            if (LocatorPlugin.Config.AutoPinSpawners) {
-                var spawnArea = hitInfo.collider.GetComponentInParent<SpawnArea>();
-                if (spawnArea != null) {
-                    Debug.Log(spawnArea);
-                    AddTrackedPin(spawnArea);
+            foreach (var type in TrackedObjects.Keys) {
+                var obj = hitInfo.collider.GetComponentInParent(type);
+                if (obj != null) {
+                    var configData = TrackedObjects.GetValueSafe(type);
+                    if (configData != null && configData.Item1) {
+                        AddTrackedPin(obj, configData.Item2);
+                    }
                 }
             }
-
-            if (LocatorPlugin.Config.AutoPinLocations) {
-                var location = hitInfo.collider.GetComponentInParent<Location>();
-                if (location != null) AddTrackedPin(location);
-            }
-
-            if (LocatorPlugin.Config.AutoPinDestructibles) {
-                var destructible = hitInfo.collider.GetComponentInParent<Destructible>();
-                if (destructible != null) AddTrackedPin(destructible);
-            }
-
-            if (LocatorPlugin.Config.AutoPinPickables) {
-                var pickable = hitInfo.collider.GetComponentInParent<Pickable>();
-                if (pickable != null) AddTrackedPin(pickable);
-            }
-
-            if (!LocatorPlugin.Config.AutoPinLeviathans) return;
-            var leviathan = hitInfo.collider.GetComponentInParent<Leviathan>();
-            if (leviathan != null) AddTrackedPin(leviathan);
         }
 
         public static void ClearTrackedComponents() {
