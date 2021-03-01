@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Purps.Valheim.Locator.Utils {
     public static class MinimapUtils {
-        public static readonly Dictionary<Type, Tuple<bool, List<TrackedObject>>> TrackedObjects =
+        public static Dictionary<Type, Tuple<bool, List<TrackedObject>>> TrackedObjects =>
             new Dictionary<Type, Tuple<bool, List<TrackedObject>>> {
                 {
                     typeof(Destructible),
@@ -22,6 +22,9 @@ namespace Purps.Valheim.Locator.Utils {
                 }, {
                     typeof(SpawnArea),
                     Tuple.Create(LocatorPlugin.Config.AutoPinSpawners, LocatorPlugin.Config.SpawnerInclusions)
+                }, {
+                    typeof(Vegvisir),
+                    Tuple.Create(LocatorPlugin.Config.AutoPinVegvisirs, LocatorPlugin.Config.VegvisirInclusions)
                 }, {
                     typeof(Leviathan),
                     Tuple.Create(LocatorPlugin.Config.AutoPinLeviathans, LocatorPlugin.Config.LeviathanInclusions)

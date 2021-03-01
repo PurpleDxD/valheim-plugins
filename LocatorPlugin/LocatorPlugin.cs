@@ -41,7 +41,6 @@ namespace Purps.Valheim.Locator {
         protected override void OnDestroy() {
             var harmony = new Harmony(pluginGuid);
             harmony.UnpatchSelf();
-            MinimapUtils.TrackedObjects.Clear();;
             Config = null;
             Processor.clearCommands();
             Processor = null;
@@ -87,6 +86,8 @@ namespace Purps.Valheim.Locator {
                 parameters => Config.AutoPinDestructibles ^= true));
             Processor.addCommand(new Command("/pinpickables",
                 "Toggles the pinning of plans and fungi.", parameters => Config.AutoPinPickables ^= true));
+            Processor.addCommand(new Command("/pinvegvisirs",
+                "Toggles the pinning of boss runestones.", parameters => Config.AutoPinVegvisirs ^= true));
             Processor.addCommand(new Command("/pinleviathans",
                 "Toggles the pinning of leviathans.", parameters => Config.AutoPinLeviathans ^= true));
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Purps.Valheim.Framework;
@@ -23,6 +24,9 @@ namespace Purps.Valheim.Locator {
         private bool autoPinSpawners;
         private List<TrackedObject> spawnerInclusions;
 
+        private bool autoPinVegvisirs;
+        private List<TrackedObject> vegvisirInclusions;
+
         private bool autoPinLeviathans;
         private List<TrackedObject> leviathanInclusions;
 
@@ -40,6 +44,8 @@ namespace Purps.Valheim.Locator {
                 "Toggles the pinning of ores and berry bushes.").Value;
             autoPinPickables = plugin.Config.Bind("AutoPin", "pinPickables", true,
                 "Toggles the pinning of plans and fungi.").Value;
+            autoPinVegvisirs = plugin.Config.Bind("AutoPin", "pinVegvisirs", true,
+                "Toggles the pinning of boss runestones.").Value;
             autoPinLeviathans = plugin.Config.Bind("AutoPin", "pinLeviathans", true,
                 "Toggles the pinning of leviathans.").Value;
 
@@ -63,6 +69,11 @@ namespace Purps.Valheim.Locator {
                     "spawnerInclusions",
                     "{Spawner,Spawner,true}",
                     "Exclusion list for spawners.");
+            vegvisirInclusions =
+                GetInclusionList(
+                    "vegvisirInclusions",
+                    "{Vegvisir,Vegvisir,true}",
+                    "Exclusion list for boss runestones.");
             leviathanInclusions =
                 GetInclusionList(
                     "spawnerInclusions",
@@ -94,7 +105,7 @@ namespace Purps.Valheim.Locator {
 
             throw new MappingException($"Failed to load property {name}.");
         }
-        
+
         public bool AutoPin {
             get => autoPin;
             set {
@@ -135,6 +146,14 @@ namespace Purps.Valheim.Locator {
             }
         }
 
+        public bool AutoPinVegvisirs {
+            get => autoPinVegvisirs;
+            set {
+                autoPinVegvisirs = value;
+                ConsoleUtils.WriteToConsole($"AutoPinVegvisirs: {autoPinVegvisirs}");
+            }
+        }
+
         public bool AutoPinLeviathans {
             get => autoPinLeviathans;
             set {
@@ -150,7 +169,7 @@ namespace Purps.Valheim.Locator {
                 ConsoleUtils.WriteToConsole($"AutoPinDistance: {AutoPinDistance}");
             }
         }
-        
+
         public List<TrackedObject> DestructibleInclusions {
             get => destructibleInclusions;
             set {
@@ -182,7 +201,15 @@ namespace Purps.Valheim.Locator {
                 ConsoleUtils.WriteToConsole(string.Join(", ", spawnerInclusions));
             }
         }
-        
+
+        public List<TrackedObject> VegvisirInclusions {
+            get => vegvisirInclusions;
+            set {
+                vegvisirInclusions = value;
+                ConsoleUtils.WriteToConsole(string.Join(", ", vegvisirInclusions));
+            }
+        }
+
         public List<TrackedObject> LeviathanInclusions {
             get => leviathanInclusions;
             set {
