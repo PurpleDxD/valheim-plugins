@@ -75,27 +75,34 @@ namespace Purps.Valheim.Locator {
 
             Processor.addCommand(new Command("/autopin",
                 "Toggles entity auto-pinning.", parameters => Config.AutoPin ^= true));
-
-            Processor.addCommand(new Command("/pinspawners",
-                "Toggles the pinning of spawners", parameters => Config.AutoPinSpawners ^= true));
+            Processor.addCommand(new Command("/pindistance",
+                "The allowed distance between two entities for auto-pinning.", parameters => {
+                    if (parameters.Length > 0f && float.TryParse(parameters[0], out var distance))
+                        Config.AutoPinDistance = distance;
+                }));
+            Processor.addCommand(new Command("/pinraydistance",
+                "How close the to the entity the player must be for it to be auto-pinned.", parameters => {
+                    if (parameters.Length > 0f && float.TryParse(parameters[0], out var distance))
+                        Config.AutoPinDistance = distance;
+                }));
+            
+            Processor.addCommand(new Command("/pindestructibles",
+                "Toggles the pinning of destructible items.",
+                parameters => Config.AutoPinDestructibles ^= true));
+            Processor.addCommand(new Command("/pinminerocks",
+                "Toggles the pinning of mineable rocks.",
+                parameters => Config.AutoPinMineRocks ^= true));
             Processor.addCommand(new Command("/pinlocations",
                 "Toggles the pinning of dungeons, caves, altars, runestones, etc.",
                 parameters => Config.AutoPinLocations ^= true));
-            Processor.addCommand(new Command("/pindestructibles",
-                "Toggles the pinning of ores and berry bushes.",
-                parameters => Config.AutoPinDestructibles ^= true));
             Processor.addCommand(new Command("/pinpickables",
                 "Toggles the pinning of plans and fungi.", parameters => Config.AutoPinPickables ^= true));
+            Processor.addCommand(new Command("/pinspawners",
+                "Toggles the pinning of spawners", parameters => Config.AutoPinSpawners ^= true));
             Processor.addCommand(new Command("/pinvegvisirs",
                 "Toggles the pinning of boss runestones.", parameters => Config.AutoPinVegvisirs ^= true));
             Processor.addCommand(new Command("/pinleviathans",
                 "Toggles the pinning of leviathans.", parameters => Config.AutoPinLeviathans ^= true));
-
-            Processor.addCommand(new Command("/pindistance",
-                "The allowed distance between two entities for auto-pinning.", parameters => {
-                    if (parameters.Length > 0 && int.TryParse(parameters[0], out var distance))
-                        Config.AutoPinDistance = distance;
-                }));
         }
     }
 }

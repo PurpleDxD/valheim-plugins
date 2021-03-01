@@ -14,6 +14,9 @@ namespace Purps.Valheim.Locator.Utils {
                     typeof(Destructible),
                     Tuple.Create(LocatorPlugin.Config.AutoPinDestructibles, LocatorPlugin.Config.DestructibleInclusions)
                 }, {
+                    typeof(MineRock),
+                    Tuple.Create(LocatorPlugin.Config.AutoPinMineRocks, LocatorPlugin.Config.MineRockInclusions)
+                }, {
                     typeof(Location),
                     Tuple.Create(LocatorPlugin.Config.AutoPinLocations, LocatorPlugin.Config.LocationInclusions)
                 }, {
@@ -130,7 +133,7 @@ namespace Purps.Valheim.Locator.Utils {
             if (!IsMinimapAvailable()) return;
             if (!LocatorPlugin.Config.AutoPin) return;
             if (!Physics.Raycast(GameCamera.instance.transform.position, GameCamera.instance.transform.forward,
-                out var hitInfo, 25f, LocatorPlugin.CastMask)) return;
+                out var hitInfo, LocatorPlugin.Config.AutoPinRayDistance, LocatorPlugin.CastMask)) return;
 
             foreach (var type in TrackedObjects.Keys) {
                 var obj = hitInfo.collider.GetComponentInParent(type);
