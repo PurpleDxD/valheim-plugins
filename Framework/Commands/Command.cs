@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Purps.Valheim.Utils;
 
-namespace Purps.Valheim.Utils {
+namespace Purps.Valheim.Framework.Commands {
     public class Command : ICommand {
         public Command(string name, string description, Action<string[]> action, bool shouldPrint = true) {
             Name = name;

@@ -19,3 +19,4 @@ Desktop.ini
 **/Properties/**/*.cs
 /ValheimUtils/Properties/AssemblyInfo.cs
 /LocatorPlugin/packages.config
+/SkipIntroPlugin/packages.config

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using Purps.Valheim.Locator.Patches;
+using Purps.Valheim.Framework.Utils;
 using UnityEngine;
 
 namespace Purps.Valheim.Locator.Utils {
@@ -78,7 +78,7 @@ namespace Purps.Valheim.Locator.Utils {
             if (TrackedComponents.RemoveWhere(
                 component => component != null && component.transform != null &&
                              Vector2DDistance(component.transform.position, position) <
-                             Config.AutoPinDistance) == 0)
+                             LocatorPlugin.Config.AutoPinDistance) == 0)
                 Minimap.instance.RemovePin(position, 1f);
         }
 
@@ -120,7 +120,7 @@ namespace Purps.Valheim.Locator.Utils {
 
             var pinExists = MapPins.FindAll(pin =>
                     pin.m_name == trackedObject.Item2 &&
-                    Vector2DDistance(pin.m_pos, component.transform.position) < Config.AutoPinDistance)
+                    Vector2DDistance(pin.m_pos, component.transform.position) < LocatorPlugin.Config.AutoPinDistance)
                 .Count == 0;
 
             if (TrackedComponents.Count == 0) {
@@ -130,7 +130,7 @@ namespace Purps.Valheim.Locator.Utils {
 
             var components = TrackedComponents.Where(t =>
                 t != null && component != null &&
-                Vector3.Distance(t.transform.position, component.transform.position) < Config.AutoPinDistance);
+                Vector3.Distance(t.transform.position, component.transform.position) < LocatorPlugin.Config.AutoPinDistance);
 
             if (components.Count() != 0) return pinExists ? trackedObject : null;
 
@@ -144,12 +144,12 @@ namespace Purps.Valheim.Locator.Utils {
 
         public static void Update() {
             if (!IsMinimapAvailable()) return;
-            if (!Config.AutoPin) return;
+            if (!LocatorPlugin.Config.AutoPin) return;
 
             if (!Physics.Raycast(GameCamera.instance.transform.position, GameCamera.instance.transform.forward,
-                out var hitInfo, 25f, Plugin.CastMask)) return;
+                out var hitInfo, 25f, LocatorPlugin.CastMask)) return;
 
-            if (Config.AutoPinSpawners) {
+            if (LocatorPlugin.Config.AutoPinSpawners) {
                 var spawnArea = hitInfo.collider.GetComponentInParent<SpawnArea>();
                 if (spawnArea != null) {
                     Debug.Log(spawnArea);
@@ -157,22 +157,22 @@ namespace Purps.Valheim.Locator.Utils {
                 }
             }
 
-            if (Config.AutoPinLocations) {
+            if (LocatorPlugin.Config.AutoPinLocations) {
                 var location = hitInfo.collider.GetComponentInParent<Location>();
                 if (location != null) AddTrackedPin(location);
             }
 
-            if (Config.AutoPinDestructibles) {
+            if (LocatorPlugin.Config.AutoPinDestructibles) {
                 var destructible = hitInfo.collider.GetComponentInParent<Destructible>();
                 if (destructible != null) AddTrackedPin(destructible);
             }
 
-            if (Config.AutoPinPickables) {
+            if (LocatorPlugin.Config.AutoPinPickables) {
                 var pickable = hitInfo.collider.GetComponentInParent<Pickable>();
                 if (pickable != null) AddTrackedPin(pickable);
             }
 
-            if (!Config.AutoPinLeviathans) return;
+            if (!LocatorPlugin.Config.AutoPinLeviathans) return;
             var leviathan = hitInfo.collider.GetComponentInParent<Leviathan>();
             if (leviathan != null) AddTrackedPin(leviathan);
         }

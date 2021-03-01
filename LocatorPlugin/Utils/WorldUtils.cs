@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Purps.Valheim.Locator.Patches;
+using Purps.Valheim.Framework.Utils;
 using UnityEngine;
 
 namespace Purps.Valheim.Locator.Utils {

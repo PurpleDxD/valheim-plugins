@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Purps.Valheim.Locator.Patches {
+namespace Purps.Valheim.Framework.Utils {
     public static class ConsoleUtils {
         public static void WriteToConsole(params string[] textElements) {
             var str = "";

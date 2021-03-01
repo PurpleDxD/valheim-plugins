@@ -1,4 +1,4 @@
-﻿using Purps.Valheim.Locator.Patches;
+﻿using Purps.Valheim.Framework.Utils;
 
 namespace Purps.Valheim.Locator.Utils {
     public static class StatusUtils {

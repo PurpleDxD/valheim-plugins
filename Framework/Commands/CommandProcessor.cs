@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Purps.Valheim.Locator.Patches;
+using Purps.Valheim.Framework.Utils;
+using Purps.Valheim.Utils;
 
-namespace Purps.Valheim.Utils {
+namespace Purps.Valheim.Framework.Commands {
     public class CommandProcessor {
         public List<ICommand> Commands { get; } = new List<ICommand>();
 
