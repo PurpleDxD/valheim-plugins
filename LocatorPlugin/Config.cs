@@ -1,6 +1,4 @@
-﻿using BepInEx;
-using BepInEx.Configuration;
-using Purps.Valheim.Locator.Patches;
+﻿using Purps.Valheim.Locator.Patches;
 
 namespace Purps.Valheim.Locator {
     public static class Config {

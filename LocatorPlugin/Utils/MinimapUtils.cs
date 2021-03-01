@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Reflection;
 using HarmonyLib;
 using Purps.Valheim.Locator.Patches;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Purps.Valheim.Locator.Utils {
     public static class MinimapUtils {
@@ -43,7 +40,7 @@ namespace Purps.Valheim.Locator.Utils {
             Tuple.Create("GoblinKing", "Yagluth"),
 
             // Spawners
-            Tuple.Create("Spawner", "Spawner"),
+            Tuple.Create("Spawner", "Spawner")
         };
 
         private static readonly HashSet<Component> TrackedComponents = new HashSet<Component>();
@@ -81,9 +78,8 @@ namespace Purps.Valheim.Locator.Utils {
             if (TrackedComponents.RemoveWhere(
                 component => component != null && component.transform != null &&
                              Vector2DDistance(component.transform.position, position) <
-                             Config.AutoPinDistance) == 0) {
+                             Config.AutoPinDistance) == 0)
                 Minimap.instance.RemovePin(position, 1f);
-            }
         }
 
         public static void ClearPins(string[] parameters) {
@@ -112,8 +108,9 @@ namespace Purps.Valheim.Locator.Utils {
             }
         }
 
-        private static Tuple<string, string> GetTrackedObject(Component component) =>
-            TrackedObjects.FirstOrDefault(name => component.name.StartsWith(name.Item1));
+        private static Tuple<string, string> GetTrackedObject(Component component) {
+            return TrackedObjects.FirstOrDefault(name => component.name.StartsWith(name.Item1));
+        }
 
         private static Tuple<string, string> Track(Component component) {
             if (!IsMinimapAvailable()) return null;
@@ -135,9 +132,7 @@ namespace Purps.Valheim.Locator.Utils {
                 t != null && component != null &&
                 Vector3.Distance(t.transform.position, component.transform.position) < Config.AutoPinDistance);
 
-            if (components.Count() != 0) {
-                return pinExists ? trackedObject : null;
-            }
+            if (components.Count() != 0) return pinExists ? trackedObject : null;
 
             TrackedComponents.Add(component);
             return trackedObject;
@@ -164,30 +159,22 @@ namespace Purps.Valheim.Locator.Utils {
 
             if (Config.AutoPinLocations) {
                 var location = hitInfo.collider.GetComponentInParent<Location>();
-                if (location != null) {
-                    AddTrackedPin(location);
-                }
+                if (location != null) AddTrackedPin(location);
             }
 
             if (Config.AutoPinDestructibles) {
                 var destructible = hitInfo.collider.GetComponentInParent<Destructible>();
-                if (destructible != null) {
-                    AddTrackedPin(destructible);
-                }
+                if (destructible != null) AddTrackedPin(destructible);
             }
 
             if (Config.AutoPinPickables) {
                 var pickable = hitInfo.collider.GetComponentInParent<Pickable>();
-                if (pickable != null) {
-                    AddTrackedPin(pickable);
-                }
+                if (pickable != null) AddTrackedPin(pickable);
             }
 
             if (!Config.AutoPinLeviathans) return;
             var leviathan = hitInfo.collider.GetComponentInParent<Leviathan>();
-            if (leviathan != null) {
-                AddTrackedPin(leviathan);
-            }
+            if (leviathan != null) AddTrackedPin(leviathan);
         }
 
         public static void ClearTrackedComponents() {

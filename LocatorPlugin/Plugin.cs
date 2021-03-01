@@ -21,11 +21,7 @@ namespace Purps.Valheim.Locator {
         public static int CastMask;
 
         public static CommandProcessor Processor;
-        public static ConfigFile ConfigFile = null;
-
-        private void Update() {
-            MinimapUtils.Update();
-        }
+        public static ConfigFile ConfigFile;
 
         private void Awake() {
             ConfigFile = Config;
@@ -36,6 +32,10 @@ namespace Purps.Valheim.Locator {
             CreateCommands();
             var harmony = new Harmony(pluginGuid);
             harmony.PatchAll();
+        }
+
+        private void Update() {
+            MinimapUtils.Update();
         }
 
         private void OnDestroy() {
@@ -73,26 +73,25 @@ namespace Purps.Valheim.Locator {
                 MinimapUtils.ClearPins));
 
             Processor.addCommand(new Command("/autopin",
-                "Toggles entity auto-pinning.", (parameters) => Locator.Config.AutoPin ^= true));
+                "Toggles entity auto-pinning.", parameters => Locator.Config.AutoPin ^= true));
 
             Processor.addCommand(new Command("/pinspawners",
-                "Toggles the pinning of spawners", (parameters) => Locator.Config.AutoPinSpawners ^= true));
+                "Toggles the pinning of spawners", parameters => Locator.Config.AutoPinSpawners ^= true));
             Processor.addCommand(new Command("/pinlocations",
                 "Toggles the pinning of dungeons, caves, altars, runestones, etc.",
-                (parameters) => Locator.Config.AutoPinLocations ^= true));
+                parameters => Locator.Config.AutoPinLocations ^= true));
             Processor.addCommand(new Command("/pindestructibles",
                 "Toggles the pinning of ores and berry bushes.",
-                (parameters) => Locator.Config.AutoPinDestructibles ^= true));
+                parameters => Locator.Config.AutoPinDestructibles ^= true));
             Processor.addCommand(new Command("/pinpickables",
-                "Toggles the pinning of plans and fungi.", (parameters) => Locator.Config.AutoPinPickables ^= true));
+                "Toggles the pinning of plans and fungi.", parameters => Locator.Config.AutoPinPickables ^= true));
             Processor.addCommand(new Command("/pinleviathans",
-                "Toggles the pinning of leviathans.", (parameters) => Locator.Config.AutoPinLeviathans ^= true));
+                "Toggles the pinning of leviathans.", parameters => Locator.Config.AutoPinLeviathans ^= true));
 
             Processor.addCommand(new Command("/pindistance",
-                "The allowed distance between two entities for auto-pinning.", (parameters) => {
-                    if (parameters.Length > 0 && int.TryParse(parameters[0], out var distance)) {
+                "The allowed distance between two entities for auto-pinning.", parameters => {
+                    if (parameters.Length > 0 && int.TryParse(parameters[0], out var distance))
                         Locator.Config.AutoPinDistance = distance;
-                    }
                 }));
         }
     }

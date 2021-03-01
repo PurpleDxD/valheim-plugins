@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using HarmonyLib;
 using Purps.Valheim.Locator.Patches;
 using UnityEngine;
 
@@ -50,7 +49,5 @@ namespace Purps.Valheim.Locator.Utils {
             locations.ForEach(location =>
                 ConsoleUtils.WriteToConsole(location.m_location.m_prefabName, location.m_position.ToString()));
         }
-
-        
     }
 }
