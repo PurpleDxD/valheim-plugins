@@ -39,5 +39,6 @@ Open the Console (F5) and enter the desired commands.
 You can view the list by typing in /locator-commands
 
 # PLANNED FEATURES
-Auto-pin near-by entities.
-New pin icons (need to do some research for this, new to modding)
+New pin icons (need to do some research for this, new to modding).
+Add drop-down to minimap screen (m) to allow pin filtering.
+Allow pin creation at current x,y,z using key-binds.
