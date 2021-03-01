@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
 using Purps.Valheim.Locator.Utils;
 using Purps.Valheim.Utils;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Purps.Valheim.Locator {
     [BepInPlugin(pluginGuid, pluginName, pluginVersion)]
@@ -74,6 +71,29 @@ namespace Purps.Valheim.Locator {
                 MinimapUtils.ListPins));
             Processor.addCommand(new Command("/clearpins", "Clears all your Pins.",
                 MinimapUtils.ClearPins));
+
+            Processor.addCommand(new Command("/autopin",
+                "Toggles entity auto-pinning.", (parameters) => Locator.Config.AutoPin ^= true));
+
+            Processor.addCommand(new Command("/pinspawners",
+                "Toggles the pinning of spawners", (parameters) => Locator.Config.AutoPinSpawners ^= true));
+            Processor.addCommand(new Command("/pinlocations",
+                "Toggles the pinning of dungeons, caves, altars, runestones, etc.",
+                (parameters) => Locator.Config.AutoPinLocations ^= true));
+            Processor.addCommand(new Command("/pindestructibles",
+                "Toggles the pinning of ores and berry bushes.",
+                (parameters) => Locator.Config.AutoPinDestructibles ^= true));
+            Processor.addCommand(new Command("/pinpickables",
+                "Toggles the pinning of plans and fungi.", (parameters) => Locator.Config.AutoPinPickables ^= true));
+            Processor.addCommand(new Command("/pinleviathans",
+                "Toggles the pinning of leviathans.", (parameters) => Locator.Config.AutoPinLeviathans ^= true));
+
+            Processor.addCommand(new Command("/pindistance",
+                "The allowed distance between two entities for auto-pinning.", (parameters) => {
+                    if (parameters.Length > 0 && int.TryParse(parameters[0], out var distance)) {
+                        Locator.Config.AutoPinDistance = distance;
+                    }
+                }));
         }
     }
 }
