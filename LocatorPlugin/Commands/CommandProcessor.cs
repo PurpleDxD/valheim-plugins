@@ -15,8 +15,8 @@ namespace Purps.Valheim.Utils {
         }
 
         public void printCommands(string[] parameters) {
-            Commands.FindAll(c => c.ShouldPrint)
-                .ForEach(c => ConsoleUtils.WriteToConsole($"{c.Name} => {c.Description}"));
+            Commands.FindAll(command => command.ShouldPrint)
+                .ForEach(command => ConsoleUtils.WriteToConsole($"{command.Name} => {command.Description}"));
         }
 
         public void executeCommand(string commandStr) {

@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using BepInEx;
+using BepInEx.Configuration;
 using HarmonyLib;
 using Purps.Valheim.Locator.Utils;
 using Purps.Valheim.Utils;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Purps.Valheim.Locator {
     [BepInPlugin(pluginGuid, pluginName, pluginVersion)]
@@ -16,9 +21,20 @@ namespace Purps.Valheim.Locator {
         private const string description = "Finds and pins various Valheim locations / entities on the minimap!";
         private const string author = "Purps";
 
+        public static int CastMask;
+
         public static CommandProcessor Processor;
+        public static ConfigFile ConfigFile = null;
+
+        private void Update() {
+            MinimapUtils.Update();
+        }
 
         private void Awake() {
+            ConfigFile = Config;
+            CastMask = LayerMask.GetMask("item", "player", "Default", "static_solid", "Default_small", "piece",
+                "piece_nonsolid", "terrain", "character", "character_net", "character_ghost", "hitbox",
+                "character_noenv", "vehicle");
             Processor = new CommandProcessor();
             CreateCommands();
             var harmony = new Harmony(pluginGuid);
@@ -30,6 +46,7 @@ namespace Purps.Valheim.Locator {
             harmony.UnpatchSelf();
             Processor.clearCommands();
             Processor = null;
+            MinimapUtils.ClearTrackedComponents();
         }
 
         private static void CreateCommands() {
@@ -54,9 +71,9 @@ namespace Purps.Valheim.Locator {
                 "Lists all the locations in the Console. Does not work on servers.",
                 WorldUtils.ListLocations));
             Processor.addCommand(new Command("/listpins", "Lists all your Pins in the Console.",
-                WorldUtils.ListPins));
+                MinimapUtils.ListPins));
             Processor.addCommand(new Command("/clearpins", "Clears all your Pins.",
-                WorldUtils.clearPins));
+                MinimapUtils.ClearPins));
         }
     }
 }

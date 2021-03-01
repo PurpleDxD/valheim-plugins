@@ -7,14 +7,11 @@ using UnityEngine;
 
 namespace Purps.Valheim.Locator.Utils {
     public static class WorldUtils {
-        private static readonly List<Vector3> MapPoints = generateMapPoints();
-
-        private static List<Minimap.PinData> MapPins =>
-            (List<Minimap.PinData>) Traverse.Create(Minimap.instance).Field("m_pins").GetValue();
+        private static readonly List<Vector3> locationPoints = GenerateLocationPoints();
 
         private static List<ZoneSystem.LocationInstance> MapLocations => ZoneSystem.instance.GetLocationList().ToList();
 
-        private static List<Vector3> generateMapPoints() {
+        private static List<Vector3> GenerateLocationPoints() {
             const int radius = 10000;
             const int cycle = 360;
             const int pointCount = 6;
@@ -31,10 +28,10 @@ namespace Purps.Valheim.Locator.Utils {
         }
 
         public static void Locate(Minimap.PinType pinType, List<Tuple<string, string>> names, bool multiple) {
-            if (!StatusUtils.isPlayerLoaded()) return;
+            if (!StatusUtils.IsPlayerLoaded()) return;
             foreach (var name in names)
                 if (multiple)
-                    MapPoints.ForEach(point => Locate(name, point, pinType));
+                    locationPoints.ForEach(point => Locate(name, point, pinType));
                 else
                     Locate(name, Player.m_localPlayer.transform.position, pinType);
         }
@@ -44,7 +41,7 @@ namespace Purps.Valheim.Locator.Utils {
         }
 
         public static void ListLocations(string[] parameters) {
-            if (!StatusUtils.isPlayerLoaded() || !StatusUtils.isPlayerOffline()) return;
+            if (!StatusUtils.IsPlayerLoaded() || !StatusUtils.IsPlayerOffline()) return;
             var locations = MapLocations;
             if (parameters != null && parameters.Length > 0)
                 locations = locations.FindAll(location =>
@@ -54,20 +51,6 @@ namespace Purps.Valheim.Locator.Utils {
                 ConsoleUtils.WriteToConsole(location.m_location.m_prefabName, location.m_position.ToString()));
         }
 
-        public static void ListPins(string[] parameters) {
-            if (!StatusUtils.isPlayerLoaded()) return;
-            var pins = MapPins;
-            if (parameters != null && parameters.Length > 0)
-                pins = pins.FindAll(pin => parameters.Contains(pin.m_name.Replace(' ', '_')));
-
-            pins.ForEach(pin =>
-                ConsoleUtils.WriteToConsole(pin.m_name, pin.m_pos.ToString(), pin.m_icon.name));
-        }
-
-        public static void clearPins(string[] parameters) {
-            new List<Minimap.PinData>(MapPins)
-                .FindAll(pin => pin.m_icon.name != "mapicon_start" && pin.m_icon.name != "mapicon_trader")
-                .ForEach(pin => Minimap.instance.RemovePin(pin));
-        }
+        
     }
 }
