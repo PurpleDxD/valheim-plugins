@@ -138,6 +138,9 @@ namespace Purps.Valheim.Locator.Utils {
             foreach (var type in TrackedObjects.Keys) {
                 var obj = hitInfo.collider.GetComponentInParent(type);
                 if (obj != null) {
+                    if (LocatorPlugin.Config.Debug)
+                        Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft,
+                            $"name={obj.name}, type={obj.GetType()}");
                     var configData = TrackedObjects.GetValueSafe(type);
                     if (configData != null && configData.Item1) {
                         AddTrackedPin(obj, configData.Item2);

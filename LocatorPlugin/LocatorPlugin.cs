@@ -73,6 +73,8 @@ namespace Purps.Valheim.Locator {
             Processor.addCommand(new Command("/clearpins", "Clears all your Pins.",
                 MinimapUtils.ClearPins));
 
+            Processor.addCommand(new Command("/debug",
+                "Prints useful information to configure your own pinnable item types.", parameters => Config.Debug ^= true));
             Processor.addCommand(new Command("/autopin",
                 "Toggles entity auto-pinning.", parameters => Config.AutoPin ^= true));
             Processor.addCommand(new Command("/pindistance",
@@ -81,7 +83,7 @@ namespace Purps.Valheim.Locator {
                         Config.AutoPinDistance = distance;
                 }));
             Processor.addCommand(new Command("/pinraydistance",
-                "How close the to the entity the player must be for it to be auto-pinned.", parameters => {
+                "How close to the entity the player must be for it to be auto-pinned.", parameters => {
                     if (parameters.Length > 0f && float.TryParse(parameters[0], out var distance))
                         Config.AutoPinDistance = distance;
                 }));

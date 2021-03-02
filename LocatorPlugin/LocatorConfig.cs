@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace Purps.Valheim.Locator {
     public class LocatorConfig : BaseConfig {
+        private bool debug;
         private bool autoPin;
         private float autoPinDistance;
         private float autoPinRayDistance;
@@ -35,6 +36,8 @@ namespace Purps.Valheim.Locator {
         private List<TrackedObject> leviathanInclusions;
 
         public LocatorConfig(BasePlugin plugin) : base(plugin) {
+            debug = plugin.Config.Bind("General", "debug", false,
+                "Prints useful information to configure your own pinnable item types.").Value;
             autoPin = plugin.Config.Bind("AutoPin", "enabled", true,
                 "Enables entity auto-pinning.").Value;
             autoPinDistance = plugin.Config.Bind("AutoPin", "pinDistances", 30f,
@@ -60,7 +63,7 @@ namespace Purps.Valheim.Locator {
             destructibleInclusions =
                 GetInclusionList(
                     "destructibleInclusions",
-                    "{BlueberryBush,BlueBerry,true}{CloudberryBush,Cloudberry,true}{RaspberryBush,Raspberry,true}{MineRock_Tin,Tin,true}{rock4_copper,Copper,true}{MineRock_Obsidian,Obsidian,true}",
+                    "{silvervein,Silver,true}{rock3_silver,Silver,true}{BlueberryBush,BlueBerry,true}{CloudberryBush,Cloudberry,true}{RaspberryBush,Raspberry,true}{MineRock_Tin,Tin,true}{rock4_copper,Copper,true}{MineRock_Obsidian,Obsidian,true}",
                     "Inclusion list for destructible items.");
             mineRockInclusions =
                 GetInclusionList(
@@ -75,7 +78,7 @@ namespace Purps.Valheim.Locator {
             pickableInclusions =
                 GetInclusionList(
                     "pickableInclusions",
-                    "{Pickable_Thistle,Thistle,true}{Pickable_Mushroom,Mushroom,true}{Pickable_SeedCarrot,Carrot,true}{Pickable_Dandelion,Dandelion,true}{Pickable_SeedTurnip,Turnip,true}",
+                    "{Pickable_Barley,Barley,true}{Pickable_Flax,Flax,true}{Pickable_Thistle,Thistle,true}{Pickable_Mushroom,Mushroom,true}{Pickable_SeedCarrot,Carrot,true}{Pickable_Dandelion,Dandelion,true}{Pickable_SeedTurnip,Turnip,true}",
                     "Inclusion list for pickable items.");
             spawnerInclusions =
                 GetInclusionList(
@@ -118,6 +121,15 @@ namespace Purps.Valheim.Locator {
 
             throw new MappingException($"Failed to load property {name}.");
         }
+
+        public bool Debug {
+            get => debug;
+            set {
+                debug = value;
+                ConsoleUtils.WriteToConsole($"Debug: {Debug}");
+            }
+        }
+
 
         public bool AutoPin {
             get => autoPin;

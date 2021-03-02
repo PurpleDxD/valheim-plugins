@@ -75,6 +75,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Data\TrackedObject.cs" />
         <Compile Include="Exceptions\MappingException.cs" />
         <Compile Include="LocatorConfig.cs" />
         <Compile Include="Patches\ChatPatch.cs" />
@@ -82,7 +83,6 @@
         <Compile Include="Patches\MinimapPatch.cs" />
         <Compile Include="LocatorPlugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="TrackedObject.cs" />
         <Compile Include="Utils\MinimapUtils.cs" />
         <Compile Include="Utils\StatusUtils.cs" />
         <Compile Include="Utils\WorldUtils.cs" />
