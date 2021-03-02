@@ -57,7 +57,7 @@ namespace Purps.Valheim.Locator {
             LocationInclusions =
                 GetInclusionList(
                     "locationInclusions",
-                    "{DrakeLorestone,Runestone,true}{TrollCave,BlueBerry,true}{Crypt,Crypt,true}{SunkenCrypt,Crypt,true}{Grave,Grave,true}{DrakeNest,Egg,true}{Runestone,Runestone,true}{Eikthyrnir,Eikthyr,true}{GDKing,The Elder,true}{Bonemass,Bonemass,true}{Dragonqueen,Moder,true}{GoblinKing,Yagluth,true}",
+                    "{DrakeLorestone,Runestone,true}{TrollCave,Troll,true}{Crypt,Crypt,true}{SunkenCrypt,Crypt,true}{Grave,Grave,true}{DrakeNest,Egg,true}{Runestone,Runestone,true}{Eikthyrnir,Eikthyr,true}{GDKing,The Elder,true}{Bonemass,Bonemass,true}{Dragonqueen,Moder,true}{GoblinKing,Yagluth,true}",
                     "Inclusion list for locations.");
             PickableInclusions =
                 GetInclusionList(
