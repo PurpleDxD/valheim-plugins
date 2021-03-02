@@ -52,6 +52,24 @@ namespace Purps.Valheim.Locator.Utils {
             return Minimap.instance != null;
         }
 
+        public static void Update() {
+            if (!IsMinimapAvailable()) return;
+            if (!BasePlugin.GetConfigData<bool>("pinEnabled").value) return;
+            if (!Physics.Raycast(GameCamera.instance.transform.position, GameCamera.instance.transform.forward,
+                out var hitInfo, BasePlugin.GetConfigData<float>("pinRayDistance").value,
+                LocatorPlugin.CastMask)) return;
+
+            foreach (var type in TrackedTypes.Keys) {
+                var obj = hitInfo.collider.GetComponentInParent(type);
+                if (obj != null) {
+                    if (BasePlugin.GetConfigData<bool>("debug").value)
+                        LocatorPlugin.DebugText = $"name={obj.name}, type={obj.GetType()}";
+                    var configData = TrackedTypes.GetValueSafe(type);
+                    if (configData != null && configData.Item1) AddTrackedPin(obj, configData.Item2);
+                }
+            }
+        }
+
         public static void ListPins(string[] parameters) {
             if (!StatusUtils.IsPlayerLoaded()) return;
             if (!IsMinimapAvailable()) return;
@@ -103,8 +121,13 @@ namespace Purps.Valheim.Locator.Utils {
             }
         }
 
-        private static TrackedObject GetTrackedObject(Component component, List<TrackedObject> trackedObjects) {
-            return trackedObjects.FirstOrDefault(trackedObject => component.name.StartsWith(trackedObject.Name));
+        private static TrackedObject GetTrackedObject(Component component, List<TrackedObject> typeTrackedObjects) {
+            var trackedObject = typeTrackedObjects
+                .FindAll(typeTrackedObject => component.name.Contains(typeTrackedObject.Name))
+                .OrderBy(typeTrackedObject => TrackedObject.QueryOrder(typeTrackedObject.Name, component.name))
+                .FirstOrDefault();
+            if (trackedObject == null || !trackedObject.ShouldTrack) return null;
+            return trackedObject;
         }
 
         private static TrackedObject Track(Component component, List<TrackedObject> trackedObjects) {
@@ -136,24 +159,6 @@ namespace Purps.Valheim.Locator.Utils {
 
         private static float Vector2DDistance(Vector3 v1, Vector3 v2) {
             return Mathf.Sqrt(Mathf.Pow(Mathf.Abs(v1.x - v2.x), 2f) + Mathf.Pow(Mathf.Abs(v1.z - v2.z), 2f));
-        }
-
-        public static void Update() {
-            if (!IsMinimapAvailable()) return;
-            if (!BasePlugin.GetConfigData<bool>("pinEnabled").value) return;
-            if (!Physics.Raycast(GameCamera.instance.transform.position, GameCamera.instance.transform.forward,
-                out var hitInfo, BasePlugin.GetConfigData<float>("pinRayDistance").value,
-                LocatorPlugin.CastMask)) return;
-
-            foreach (var type in TrackedTypes.Keys) {
-                var obj = hitInfo.collider.GetComponentInParent(type);
-                if (obj != null) {
-                    if (BasePlugin.GetConfigData<bool>("debug").value)
-                        LocatorPlugin.DebugText = $"name={obj.name}, type={obj.GetType()}";
-                    var configData = TrackedTypes.GetValueSafe(type);
-                    if (configData != null && configData.Item1) AddTrackedPin(obj, configData.Item2);
-                }
-            }
         }
 
         public static void ClearTrackedComponents() {

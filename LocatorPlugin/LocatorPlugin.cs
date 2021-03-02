@@ -23,16 +23,20 @@ namespace Purps.Valheim.Locator {
             "piece", "piece_nonsolid", "terrain", "character", "character_net", "character_ghost", "hitbox",
             "character_noenv", "vehicle");
 
+        private static readonly GUIStyle GuiStyle = new GUIStyle();
+        public static string DebugText = "";
+
         public LocatorPlugin() : base(PluginGuid) { }
 
         public new static LocatorConfig Config => (LocatorConfig) BaseConfig;
 
-        private static GUIStyle GuiStyle = new GUIStyle();
-        public static string DebugText = "";
-
         private void Update() {
             DebugText = "";
             MinimapUtils.Update();
+        }
+
+        private void OnGUI() {
+            GUI.Label(new Rect(10, 5, Screen.width, 20), DebugText, GuiStyle);
         }
 
         protected override void PluginAwake() {
@@ -101,10 +105,6 @@ namespace Purps.Valheim.Locator {
                 default:
                     throw new NotSupportedException($"Type {configData.value} is not supported.");
             }
-        }
-
-        private void OnGUI() {
-            GUI.Label(new Rect(10, 5, Screen.width, 20), DebugText, GuiStyle);
         }
 
         protected override BaseConfig GetConfig() {

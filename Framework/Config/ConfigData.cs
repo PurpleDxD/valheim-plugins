@@ -1,5 +1,5 @@
 ﻿namespace Purps.Valheim.Framework.Config {
-    public class ConfigData<T>  {
+    public class ConfigData<T> {
         public readonly string Description;
         public readonly string Key;
         public readonly string Section;
