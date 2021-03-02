@@ -1,4 +1,5 @@
 ﻿using Purps.Valheim.Framework;
+using Purps.Valheim.Framework.Config;
 using Purps.Valheim.Framework.Utils;
 
 namespace Purps.Valheim.SkipIntro {

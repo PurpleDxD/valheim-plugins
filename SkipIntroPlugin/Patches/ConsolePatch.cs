@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using Purps.Valheim.SkipIntro;
+using Purps.Valheim.Framework;
 
 namespace Purps.Valheim.SkipIntro.Patches {
     [HarmonyPatch(typeof(Console), "InputText")]
@@ -7,7 +7,8 @@ namespace Purps.Valheim.SkipIntro.Patches {
         [HarmonyPostfix]
         internal static void Postfix(Console __instance) {
             var commandStr = __instance.m_input.text;
-            if (!string.IsNullOrWhiteSpace(commandStr)) SkipIntroPlugin.Processor.executeCommand(__instance.m_input.text);
+            if (!string.IsNullOrWhiteSpace(commandStr))
+                BasePlugin.ExecuteCommand(__instance.m_input.text);
         }
     }
 }

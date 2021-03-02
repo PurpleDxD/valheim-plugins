@@ -34,28 +34,40 @@
     <ItemGroup>
         <Reference Include="0Harmony, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Libraries\0Harmony.dll</HintPath>
-        </Reference>
-        <Reference Include="assembly_utils, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Libraries\assembly_utils.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="assembly_valheim, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Libraries\assembly_valheim.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="BepInEx, Version=5.4.6.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Libraries\BepInEx.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="System" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Data" />
+        <Reference Include="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+          <HintPath>..\Libraries\System.Core.dll</HintPath>
+        </Reference>
         <Reference Include="System.Xml" />
         <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Libraries\UnityEngine.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Libraries\UnityEngine.CoreModule.dll</HintPath>
+          <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Libraries\UnityEngine.UI.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UIElementsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\Libraries\UnityEngine.UIElementsModule.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\Libraries\UnityEngine.UIModule.dll</HintPath>
+          <Private>False</Private>
         </Reference>
     </ItemGroup>
     <ItemGroup>
@@ -63,12 +75,11 @@
         <Compile Include="Commands\Command.cs" />
         <Compile Include="Commands\CommandProcessor.cs" />
         <Compile Include="Commands\ICommand.cs" />
-        <Compile Include="BaseConfig.cs" />
+        <Compile Include="Config\BaseConfig.cs" />
+        <Compile Include="Config\ConfigData.cs" />
+        <Compile Include="Data\GenericDictionary.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Utils\ConsoleUtils.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Patches" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

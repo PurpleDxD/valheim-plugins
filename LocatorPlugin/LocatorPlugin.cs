@@ -1,62 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
 using BepInEx;
-using HarmonyLib;
 using Purps.Valheim.Framework;
 using Purps.Valheim.Framework.Commands;
+using Purps.Valheim.Framework.Config;
 using Purps.Valheim.Locator.Utils;
 using UnityEngine;
 
 namespace Purps.Valheim.Locator {
-    [BepInPlugin(pluginGuid, pluginName, pluginVersion)]
+    [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     [BepInProcess("valheim.exe")]
     public class LocatorPlugin : BasePlugin {
-        private const string pluginGuid = "purps.valheim.locator";
-        private const string pluginName = "Locator";
-        private const string pluginVersion = "1.0.0";
+        private const string PluginGuid = "purps.valheim.locator";
+        private const string PluginName = "Locator";
+        private const string PluginVersion = "1.0.0";
 
-        private const string description = "Finds and pins various Valheim locations / entities on the minimap!";
-        private const string author = "Purps";
+        private const string Description = "Finds and pins various Valheim locations / entities on the minimap!";
+        private const string Author = "Purps";
 
-        public static int CastMask;
+        public static readonly int CastMask = LayerMask.GetMask("item", "player", "Default", "static_solid",
+            "Default_small",
+            "piece", "piece_nonsolid", "terrain", "character", "character_net", "character_ghost", "hitbox",
+            "character_noenv", "vehicle");
 
-        public static CommandProcessor Processor;
-        public new static LocatorConfig Config;
+        public LocatorPlugin() : base(PluginGuid) { }
 
-        protected override void OnAwake() {
-            CastMask = LayerMask.GetMask("item", "player", "Default", "static_solid", "Default_small", "piece",
-                "piece_nonsolid", "terrain", "character", "character_net", "character_ghost", "hitbox",
-                "character_noenv", "vehicle");
-            Processor = new CommandProcessor();
-            Config = new LocatorConfig(this);
-            CreateCommands();
-            var harmony = new Harmony(pluginGuid);
-            harmony.PatchAll();
-        }
+        public new static LocatorConfig Config => (LocatorConfig) BaseConfig;
+
+        private static GUIStyle GuiStyle = new GUIStyle();
+        public static string DebugText = "";
 
         private void Update() {
+            DebugText = "";
             MinimapUtils.Update();
         }
 
-        protected override void OnDestroy() {
-            var harmony = new Harmony(pluginGuid);
-            harmony.UnpatchSelf();
-            Config = null;
-            Processor.clearCommands();
-            Processor = null;
+        protected override void PluginAwake() {
+            GuiStyle.normal.textColor = Color.green;
+            GuiStyle.fontSize = 15;
+            CreateCommands();
+        }
+
+        protected override void PluginDestroy() {
             MinimapUtils.ClearTrackedComponents();
         }
 
         private static void CreateCommands() {
-            Processor.addCommand(new Command("/locator-commands",
-                "Displays all commands provided by the Locator plugin.",
-                Processor.printCommands, false));
+            CommandProcessor.AddCommand(new Command("/locator-commands",
+                "Displays all commands provided by the Locator plugin.", CommandProcessor.PrintCommands, false));
 
-            Processor.addCommand(new Command("/locatemerchant", "Pins the BlackForest Merchant on your Minimap.",
+            CommandProcessor.AddCommand(new Command("/locatemerchant", "Pins the BlackForest Merchant on your Minimap.",
                 parameters => WorldUtils.Locate(Minimap.PinType.Icon3, new List<Tuple<string, string>> {
                     Tuple.Create("Vendor_BlackForest", "Merchant")
                 }, false)));
-            Processor.addCommand(new Command("/locatebosses", "Pins all boss altars on your Minimap.",
+            CommandProcessor.AddCommand(new Command("/locatebosses", "Pins all boss altars on your Minimap.",
                 parameters => WorldUtils.Locate(Minimap.PinType.Boss, new List<Tuple<string, string>> {
                     Tuple.Create("Eikthyrnir", "Eikthyr"),
                     Tuple.Create("GDKing", "The Elder"),
@@ -65,46 +62,53 @@ namespace Purps.Valheim.Locator {
                     Tuple.Create("GoblinKing", "Yagluth")
                 }, true)));
 
-            Processor.addCommand(new Command("/listlocations",
+            CommandProcessor.AddCommand(new Command("/listlocations",
                 "Lists all the locations in the Console. Does not work on servers.",
                 WorldUtils.ListLocations));
-            Processor.addCommand(new Command("/listpins", "Lists all your Pins in the Console.",
+            CommandProcessor.AddCommand(new Command("/listpins", "Lists all your Pins in the Console.",
                 MinimapUtils.ListPins));
-            Processor.addCommand(new Command("/clearpins", "Clears all your Pins.",
+            CommandProcessor.AddCommand(new Command("/clearpins", "Clears all your Pins.",
                 MinimapUtils.ClearPins));
 
-            Processor.addCommand(new Command("/debug",
-                "Prints useful information to configure your own pinnable item types.", parameters => Config.Debug ^= true));
-            Processor.addCommand(new Command("/autopin",
-                "Toggles entity auto-pinning.", parameters => Config.AutoPin ^= true));
-            Processor.addCommand(new Command("/pindistance",
-                "The allowed distance between two entities for auto-pinning.", parameters => {
-                    if (parameters.Length > 0f && float.TryParse(parameters[0], out var distance))
-                        Config.AutoPinDistance = distance;
-                }));
-            Processor.addCommand(new Command("/pinraydistance",
-                "How close to the entity the player must be for it to be auto-pinned.", parameters => {
-                    if (parameters.Length > 0f && float.TryParse(parameters[0], out var distance))
-                        Config.AutoPinDistance = distance;
-                }));
-            
-            Processor.addCommand(new Command("/pindestructibles",
-                "Toggles the pinning of destructible items.",
-                parameters => Config.AutoPinDestructibles ^= true));
-            Processor.addCommand(new Command("/pinminerocks",
-                "Toggles the pinning of mineable rocks.",
-                parameters => Config.AutoPinMineRocks ^= true));
-            Processor.addCommand(new Command("/pinlocations",
-                "Toggles the pinning of dungeons, caves, altars, runestones, etc.",
-                parameters => Config.AutoPinLocations ^= true));
-            Processor.addCommand(new Command("/pinpickables",
-                "Toggles the pinning of plans and fungi.", parameters => Config.AutoPinPickables ^= true));
-            Processor.addCommand(new Command("/pinspawners",
-                "Toggles the pinning of spawners", parameters => Config.AutoPinSpawners ^= true));
-            Processor.addCommand(new Command("/pinvegvisirs",
-                "Toggles the pinning of boss runestones.", parameters => Config.AutoPinVegvisirs ^= true));
-            Processor.addCommand(new Command("/pinleviathans",
-                "Toggles the pinning of leviathans.", parameters => Config.AutoPinLeviathans ^= true));
+            CreateCommandFromConfig(GetConfigData<bool>("debug"));
+            CreateCommandFromConfig(GetConfigData<bool>("pinEnabled"));
+            CreateCommandFromConfig(GetConfigData<float>("pinDistance"));
+            CreateCommandFromConfig(GetConfigData<float>("pinRayDistance"));
+            CreateCommandFromConfig(GetConfigData<bool>("pinDestructibles"));
+            CreateCommandFromConfig(GetConfigData<bool>("pinMineRocks"));
+            CreateCommandFromConfig(GetConfigData<bool>("pinLocations"));
+            CreateCommandFromConfig(GetConfigData<bool>("pinPickables"));
+            CreateCommandFromConfig(GetConfigData<bool>("pinSpawners"));
+            CreateCommandFromConfig(GetConfigData<bool>("pinVegvisirs"));
+            CreateCommandFromConfig(GetConfigData<bool>("pinLeviathans"));
+        }
+
+        private static void CreateCommandFromConfig<T>(ConfigData<T> configData) {
+            CommandProcessor.AddCommand(new Command(
+                $"/{configData.Key}", configData.Description, parameters => SetValue(configData, parameters)));
+        }
+
+        private static void SetValue<T>(ConfigData<T> configData, string[] parameters) {
+            switch (configData.value) {
+                case bool value:
+                    value ^= true;
+                    configData.value = (T) (object) value;
+                    break;
+                case float value:
+                    if (parameters.Length > 0f && float.TryParse(parameters[0], out var parsedParameter))
+                        configData.value = (T) (object) parsedParameter;
+                    break;
+                default:
+                    throw new NotSupportedException($"Type {configData.value} is not supported.");
+            }
+        }
+
+        private void OnGUI() {
+            GUI.Label(new Rect(10, 5, Screen.width, 20), DebugText, GuiStyle);
+        }
+
+        protected override BaseConfig GetConfig() {
+            return new LocatorConfig(this);
         }
     }
 }

@@ -1,40 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BepInEx;
 using HarmonyLib;
+using Purps.Valheim.Framework;
 using Purps.Valheim.Framework.Utils;
+using Purps.Valheim.Locator.Data;
 using UnityEngine;
 
 namespace Purps.Valheim.Locator.Utils {
     public static class MinimapUtils {
-        public static Dictionary<Type, Tuple<bool, List<TrackedObject>>> TrackedObjects =>
+        private static readonly HashSet<Component> TrackedComponents = new HashSet<Component>();
+
+        private static Dictionary<Type, Tuple<bool, List<TrackedObject>>> TrackedTypes =>
             new Dictionary<Type, Tuple<bool, List<TrackedObject>>> {
                 {
                     typeof(Destructible),
-                    Tuple.Create(LocatorPlugin.Config.AutoPinDestructibles, LocatorPlugin.Config.DestructibleInclusions)
+                    Tuple.Create(BasePlugin.GetConfigData<bool>("pinDestructibles").value,
+                        LocatorPlugin.Config.DestructibleInclusions)
                 }, {
                     typeof(MineRock),
-                    Tuple.Create(LocatorPlugin.Config.AutoPinMineRocks, LocatorPlugin.Config.MineRockInclusions)
+                    Tuple.Create(BasePlugin.GetConfigData<bool>("pinMineRocks").value,
+                        LocatorPlugin.Config.MineRockInclusions)
                 }, {
                     typeof(Location),
-                    Tuple.Create(LocatorPlugin.Config.AutoPinLocations, LocatorPlugin.Config.LocationInclusions)
+                    Tuple.Create(BasePlugin.GetConfigData<bool>("pinLocations").value,
+                        LocatorPlugin.Config.LocationInclusions)
                 }, {
                     typeof(Pickable),
-                    Tuple.Create(LocatorPlugin.Config.AutoPinPickables, LocatorPlugin.Config.PickableInclusions)
+                    Tuple.Create(BasePlugin.GetConfigData<bool>("pinPickables").value,
+                        LocatorPlugin.Config.PickableInclusions)
                 }, {
                     typeof(SpawnArea),
-                    Tuple.Create(LocatorPlugin.Config.AutoPinSpawners, LocatorPlugin.Config.SpawnerInclusions)
+                    Tuple.Create(BasePlugin.GetConfigData<bool>("pinSpawners").value,
+                        LocatorPlugin.Config.SpawnerInclusions)
                 }, {
                     typeof(Vegvisir),
-                    Tuple.Create(LocatorPlugin.Config.AutoPinVegvisirs, LocatorPlugin.Config.VegvisirInclusions)
+                    Tuple.Create(BasePlugin.GetConfigData<bool>("pinVegvisirs").value,
+                        LocatorPlugin.Config.VegvisirInclusions)
                 }, {
                     typeof(Leviathan),
-                    Tuple.Create(LocatorPlugin.Config.AutoPinLeviathans, LocatorPlugin.Config.LeviathanInclusions)
+                    Tuple.Create(BasePlugin.GetConfigData<bool>("pinLeviathans").value,
+                        LocatorPlugin.Config.LeviathanInclusions)
                 }
             };
-
-        private static readonly HashSet<Component> TrackedComponents = new HashSet<Component>();
 
         public static List<Minimap.PinData> MapPins =>
             Traverse.Create(Minimap.instance)?.Field("m_pins").GetValue<List<Minimap.PinData>>() ??
@@ -69,7 +77,7 @@ namespace Purps.Valheim.Locator.Utils {
             if (TrackedComponents.RemoveWhere(
                 component => component != null && component.transform != null &&
                              Vector2DDistance(component.transform.position, position) <
-                             LocatorPlugin.Config.AutoPinDistance) == 0)
+                             BasePlugin.GetConfigData<float>("pinDistance").value) == 0)
                 Minimap.instance.RemovePin(position, 1f);
         }
 
@@ -106,7 +114,8 @@ namespace Purps.Valheim.Locator.Utils {
 
             var pinExists = MapPins.FindAll(pin =>
                     pin.m_name == trackedObject.PinName &&
-                    Vector2DDistance(pin.m_pos, component.transform.position) < LocatorPlugin.Config.AutoPinDistance)
+                    Vector2DDistance(pin.m_pos, component.transform.position) <
+                    BasePlugin.GetConfigData<float>("pinDistance").value)
                 .Count == 0;
 
             if (TrackedComponents.Count == 0) {
@@ -117,7 +126,7 @@ namespace Purps.Valheim.Locator.Utils {
             var components = TrackedComponents.Where(t =>
                 t != null && component != null &&
                 Vector3.Distance(t.transform.position, component.transform.position) <
-                LocatorPlugin.Config.AutoPinDistance);
+                BasePlugin.GetConfigData<float>("pinDistance").value);
 
             if (components.Count() != 0) return pinExists ? trackedObject : null;
 
@@ -131,20 +140,18 @@ namespace Purps.Valheim.Locator.Utils {
 
         public static void Update() {
             if (!IsMinimapAvailable()) return;
-            if (!LocatorPlugin.Config.AutoPin) return;
+            if (!BasePlugin.GetConfigData<bool>("pinEnabled").value) return;
             if (!Physics.Raycast(GameCamera.instance.transform.position, GameCamera.instance.transform.forward,
-                out var hitInfo, LocatorPlugin.Config.AutoPinRayDistance, LocatorPlugin.CastMask)) return;
+                out var hitInfo, BasePlugin.GetConfigData<float>("pinRayDistance").value,
+                LocatorPlugin.CastMask)) return;
 
-            foreach (var type in TrackedObjects.Keys) {
+            foreach (var type in TrackedTypes.Keys) {
                 var obj = hitInfo.collider.GetComponentInParent(type);
                 if (obj != null) {
-                    if (LocatorPlugin.Config.Debug)
-                        Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft,
-                            $"name={obj.name}, type={obj.GetType()}");
-                    var configData = TrackedObjects.GetValueSafe(type);
-                    if (configData != null && configData.Item1) {
-                        AddTrackedPin(obj, configData.Item2);
-                    }
+                    if (BasePlugin.GetConfigData<bool>("debug").value)
+                        LocatorPlugin.DebugText = $"name={obj.name}, type={obj.GetType()}";
+                    var configData = TrackedTypes.GetValueSafe(type);
+                    if (configData != null && configData.Item1) AddTrackedPin(obj, configData.Item2);
                 }
             }
         }

@@ -8,7 +8,6 @@ namespace Purps.Valheim.SkipIntro.Patches {
             if (!SkipIntroPlugin.Config.SkipIntro) return true;
             ___m_firstSpawn = false;
             return false;
-
         }
     }
 }

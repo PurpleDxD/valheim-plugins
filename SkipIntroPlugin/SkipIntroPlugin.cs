@@ -1,47 +1,40 @@
 ﻿using BepInEx;
-using BepInEx.Configuration;
-using HarmonyLib;
 using Purps.Valheim.Framework;
 using Purps.Valheim.Framework.Commands;
+using Purps.Valheim.Framework.Config;
 
 namespace Purps.Valheim.SkipIntro {
-    [BepInPlugin(pluginGuid, pluginName, pluginVersion)]
+    [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     [BepInProcess("valheim.exe")]
     public class SkipIntroPlugin : BasePlugin {
-        private const string pluginGuid = "purps.valheim.skipintro";
-        private const string pluginName = "Skip Intro";
-        private const string pluginVersion = "1.0.0";
+        private const string PluginGuid = "purps.valheim.skipintro";
+        private const string PluginName = "Skip Intro";
+        private const string PluginVersion = "1.0.0";
 
-        private const string description = "Skips the bird intro scene with new characters / maps.";
-        private const string author = "Purps";
+        private const string Description = "Skips the bird intro scene with new characters / maps.";
+        private const string Author = "Purps";
 
-        public static CommandProcessor Processor;
-        public new static SkipIntroConfig Config;
+        public SkipIntroPlugin() : base(PluginGuid) { }
 
-        protected override void OnAwake() {
-            Processor = new CommandProcessor();
-            Config = new SkipIntroConfig(this);
+        public new static SkipIntroConfig Config => (SkipIntroConfig) BaseConfig;
+
+        protected override void PluginAwake() {
             CreateCommands();
-            var harmony = new Harmony(pluginGuid);
-            harmony.PatchAll();
         }
 
-        protected override void OnDestroy() {
-            Config = null;
-            Processor.clearCommands();
-            Processor = null;
-            var harmony = new Harmony(pluginGuid);
-            harmony.UnpatchSelf();
-        }
+        protected override void PluginDestroy() { }
 
         private static void CreateCommands() {
-            Processor.addCommand(new Command("/skipintro-commands",
-                "Displays all commands provided by the SkipIntro plugin.",
-                Processor.printCommands, false));
+            CommandProcessor.AddCommand(new Command("/skipintro-commands",
+                "Displays all commands provided by the SkipIntro plugin.", CommandProcessor.PrintCommands, false));
 
-            Processor.addCommand(new Command("/skipintro",
+            CommandProcessor.AddCommand(new Command("/skipintro",
                 "Defines whether or not the Valkyrie scene (intro) should be skipped.",
                 parameters => Config.SkipIntro ^= true));
+        }
+
+        protected override BaseConfig GetConfig() {
+            return new SkipIntroConfig(this);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Purps.Valheim.Utils {
+namespace Purps.Valheim.Framework.Commands {
     public interface ICommand {
         string Name { get; }
         string Description { get; }
