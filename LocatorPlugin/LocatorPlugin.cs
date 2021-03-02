@@ -23,8 +23,9 @@ namespace Purps.Valheim.Locator {
             "piece", "piece_nonsolid", "terrain", "character", "character_net", "character_ghost", "hitbox",
             "character_noenv", "vehicle");
 
-        private static readonly GUIStyle GuiStyle = new GUIStyle();
+        private static readonly GUIStyle DebugStyle = new GUIStyle();
         public static string DebugText = "";
+        public static Rect DebugTextLocation = new Rect(10, 5, Screen.width, 20);
 
         public LocatorPlugin() : base(PluginGuid) { }
 
@@ -36,12 +37,12 @@ namespace Purps.Valheim.Locator {
         }
 
         private void OnGUI() {
-            GUI.Label(new Rect(10, 5, Screen.width, 20), DebugText, GuiStyle);
+            GuiUtils.DrawOutline(DebugTextLocation, DebugText, DebugStyle);
         }
 
         protected override void PluginAwake() {
-            GuiStyle.normal.textColor = Color.green;
-            GuiStyle.fontSize = 15;
+            DebugStyle.normal.textColor = Color.green;
+            DebugStyle.fontSize = 15;
             CreateCommands();
         }
 

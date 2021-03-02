@@ -66,10 +66,10 @@ Here is what the Plugin automatically Pins by default
 - /autopin => Toggles entity auto-pinning.
 - /pindistance [float: value] => The allowed distance between two entities for auto-pinning.
 - /pinraydistance [float: value] => How close to the entity the player must be for it to be auto-pinned. 
-- /pindestructibles => Toggles the pinning of ores and berry bushes.
+- /pindestructibles => Toggles the pinning of big ores veins.
 - /pinminerocks => Toggles the pinning of mineable rocks.
 - /pinlocations => Toggles the pinning of dungeons, caves, altars, runestones, etc.
-- /pinpickables => Toggles the pinning of plans and fungi.
+- /pinpickables => Toggles the pinning of plants and fungi.
 - /pinspawners => Toggles the pinning of spawners.
 - /pinleviathans => Toggles the pinning of leviathans.
 - /pindistances => The allowed distance between two entities for auto-pinning.
@@ -82,16 +82,16 @@ The configuration file found under **BepInEx\config\purps.valheim.locator.cfg** 
 ###### [Inclusions] parameters:
 You will notice different configuration parameters under the [Inclusions] section. These are the item types in Valheim. Right now, the plugin tracks the following categories:
 - Destructible
--- Any item in Valheim that can be destroyed. Trees, bushes, ore veins, etc.
--- Oddly enough, most relevant ore veins that you will discove in the world will be under this type.
--- Berries are under this type as the bushes are destructible.
+-- Any item in Valheim that can be destroyed. Trees, ore veins, etc.
+-- Oddly enough, most relevant ore veins that you will discover in the world will be under this type.
+-- A lot of other types can fall under this category. i.e. BerryBushes are both Pickable and Destructible.
 - MineRock
 -- Mineable ore veins. Haven't figure out what's useful in here other than Flametal (Meteorites). 
 -- Most relevant ore related items are under the Destructible type.
 - Location
 -- Various locations in Valheim, i.e. boss altars, runestones, crypts, caves, etc.
 - Pickable
--- Items that you can pickup in the enviroment while exploring, i.e. barely, flax, thistle, etc.
+-- Items that you can pickup in the enviroment while exploring, i.e. berries, barely, flax, thistle, etc.
 - SpawnArea
 -- Enemeny / item spawners.
 - Vegvisir
@@ -116,13 +116,13 @@ You will notice different configuration parameters under the [Inclusions] sectio
 ##### Default [Inclusions] parameters
 Since they would clutter the parameter comments, I've excluded the default values for these from appearing in the config file. Here they are for reference:
 - destructibleInclusions
--- {silvervein,Silver,true}{rock3_silver,Silver,true}{BlueberryBush,BlueBerry,true}{CloudberryBush,Cloudberry,true}{RaspberryBush,Raspberry,true}{MineRock_Tin,Tin,true}{rock4_copper,Copper,true}{MineRock_Obsidian,Obsidian,true}
+-- {silvervein,Silver,true}{rock3_silver,Silver,true}{MineRock_Tin,Tin,true}{rock4_copper,Copper,true}{MineRock_Obsidian,Obsidian,true}
 - mineRockInclusions
 -- {MineRock_Meteorite,Meteorite,true}
 - locationInclusions
 -- {DrakeLorestone,Runestone,true}{TrollCave,BlueBerry,true}{Crypt,Crypt,true}{SunkenCrypt,Crypt,true}{Grave,Grave,true}{DrakeNest,Egg,true}{Runestone,Runestone,true}{Eikthyrnir,Eikthyr,true}{GDKing,The Elder,true}{Bonemass,Bonemass,true}{Dragonqueen,Moder,true}{GoblinKing,Yagluth,true}
 - pickableInclusions
--- {Pickable_Barley,Barley,true}{Pickable_Flax,Flax,true}{Pickable_Thistle,Thistle,true}{Pickable_Mushroom,Mushroom,true}{Pickable_SeedCarrot,Carrot,true}{Pickable_Dandelion,Dandelion,true}{Pickable_SeedTurnip,Turnip,true}
+-- {BlueberryBush,BlueBerry,true}{CloudberryBush,Cloudberry,true}{RaspberryBush,Raspberry,true}{Pickable_Barley,Barley,true}{Pickable_Flax,Flax,true}{Pickable_Thistle,Thistle,true}{Pickable_Mushroom,Mushroom,true}{Pickable_SeedCarrot,Carrot,true}{Pickable_Dandelion,Dandelion,true}{Pickable_SeedTurnip,Turnip,true}
 - spawnerInclusions
 -- {Spawner,Spawner,true}
 - vegvisirInclusions

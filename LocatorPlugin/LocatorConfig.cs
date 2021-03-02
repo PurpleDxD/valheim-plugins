@@ -47,7 +47,7 @@ namespace Purps.Valheim.Locator {
             DestructibleInclusions =
                 GetInclusionList(
                     "destructibleInclusions",
-                    "{silvervein,Silver,true}{rock3_silver,Silver,true}{BlueberryBush,BlueBerry,true}{CloudberryBush,Cloudberry,true}{RaspberryBush,Raspberry,true}{MineRock_Tin,Tin,true}{rock4_copper,Copper,true}{MineRock_Obsidian,Obsidian,true}",
+                    "{silvervein,Silver,true}{rock3_silver,Silver,true}{MineRock_Tin,Tin,true}{rock4_copper,Copper,true}{MineRock_Obsidian,Obsidian,true}",
                     "Inclusion list for destructible items.");
             MineRockInclusions =
                 GetInclusionList(
@@ -62,7 +62,7 @@ namespace Purps.Valheim.Locator {
             PickableInclusions =
                 GetInclusionList(
                     "pickableInclusions",
-                    "{Pickable_Barley,Barley,true}{Pickable_Flax,Flax,true}{Pickable_Thistle,Thistle,true}{Pickable_Mushroom,Mushroom,true}{Pickable_SeedCarrot,Carrot,true}{Pickable_Dandelion,Dandelion,true}{Pickable_SeedTurnip,Turnip,true}",
+                    "{BlueberryBush,BlueBerry,true}{CloudberryBush,Cloudberry,true}{RaspberryBush,Raspberry,true}{Pickable_Barley,Barley,true}{Pickable_Flax,Flax,true}{Pickable_Thistle,Thistle,true}{Pickable_Mushroom,Mushroom,true}{Pickable_SeedCarrot,Carrot,true}{Pickable_Dandelion,Dandelion,true}{Pickable_SeedTurnip,Turnip,true}",
                     "Inclusion list for pickable items.");
             SpawnerInclusions =
                 GetInclusionList(
@@ -72,7 +72,7 @@ namespace Purps.Valheim.Locator {
             VegvisirInclusions =
                 GetInclusionList(
                     "vegvisirInclusions",
-                    "{Vegvisir,Vegvisir,true}",
+                    "{Vegvisir,Runestone,true}",
                     "Inclusion list for boss runestones.");
             LeviathanInclusions =
                 GetInclusionList(
