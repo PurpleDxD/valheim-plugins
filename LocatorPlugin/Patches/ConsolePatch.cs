@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Purps.Valheim.Framework;
+using UnityEngine;
 
 namespace Purps.Valheim.Locator.Patches {
     [HarmonyPatch(typeof(Console), "InputText")]

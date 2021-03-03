@@ -14,10 +14,23 @@ namespace Purps.Valheim.Locator.Patches {
             MinimapUtils.RemovePin(position);
         }
 
+        [HarmonyPatch(typeof(Minimap), "UpdatePins")]
+        [HarmonyPostfix]
+        internal static void UpdatePins(Minimap __instance) {
+            MinimapUtils.FilterPins();
+        }
+        
         [HarmonyPatch(typeof(Minimap), "Awake")]
         [HarmonyPostfix]
         internal static void Awake(Minimap __instance) {
-            MinimapUtils.ClearTrackedComponents();
+            MinimapUtils.OnAwake();
         }
+
+        [HarmonyPatch(typeof(Minimap), "OnDestroy")]
+        [HarmonyPostfix]
+        internal static void OnDestroy(Minimap __instance) {
+            MinimapUtils.OnDestroy();
+        }
+        
     }
 }

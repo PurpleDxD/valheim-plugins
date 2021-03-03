@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Purps.Valheim.Framework.Utils;
+using UnityEngine;
 
 namespace Purps.Valheim.Framework.Commands {
     public class CommandProcessor {
@@ -20,8 +21,9 @@ namespace Purps.Valheim.Framework.Commands {
         }
 
         public void ExecuteCommand(string commandStr) {
-            var command = Commands.FirstOrDefault(e => e.Name.Equals(commandStr.Split(' ').First()));
-            command?.Execute(commandStr);
+            var command =
+                Commands.FirstOrDefault(e => e.Name.ToLower().Equals(commandStr.Split(' ').First().ToLower()));
+            command?.Execute(commandStr.ToLower());
         }
     }
 }

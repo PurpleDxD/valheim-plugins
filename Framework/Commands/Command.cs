@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using UnityEngine;
 
 namespace Purps.Valheim.Framework.Commands {
     public class Command : ICommand {
@@ -18,7 +19,9 @@ namespace Purps.Valheim.Framework.Commands {
         public void Execute(string commandStr) {
             var sanitizedCommandStr =
                 string.Join(" ", commandStr.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
-            Action.Invoke(sanitizedCommandStr.Split(' ').Skip(1).ToArray());
+            var commands = sanitizedCommandStr.Split(' ').Skip(1).ToArray();
+            commands = Array.ConvertAll(commands, c => c.ToLower());
+            Action.Invoke(commands);
         }
     }
 }

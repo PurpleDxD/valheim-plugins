@@ -11,6 +11,8 @@ BepInEx for Valheim
 -- Locations (dungeons / crypts, caves, runestones, boss altars, merchant, etc.)
 -- Spawners
 -- Leviathans (Karekens)
+- Pin Filtering
+-- Allows you to filter your Minimap pins using keywords.
 - Highly configurable. You can basically configure the plugin to pin any item / location that would be considered important.
 -- Can be done via console / chat (runtime) or the plugin's configuration file (requires restart)
 -- See [How To Use] section for more inforamation about configuration.
@@ -54,12 +56,9 @@ Here is what the Plugin automatically Pins by default
 - Spawners
 -- All
 ### Commands
-###### [Locate]  
-- /locatemerchant => Pins the BlackForest Merchant on your Minimap.
-- /locatebosses => Pins all boss altars on your Minimap.
-###### [Other]  
-- /listlocations [string: name] => Lists ALL World locations in the Console. Does not work on servers.
-- /listpins [string: name] => Lists all your pins in the Console.
+###### [Pins]
+- /pinfilters [string[]: keywords] => Filters your minimap pins using the provided names.
+- /listpins [string[]: name] => Lists all your pins in the Console.
 - /clearpins => Clears all your pins. Careful!
 ###### [AutoPin] Can be configured in configuration file.
 - /debug => Prints useful information to configure your own pinnable item types.
@@ -73,6 +72,11 @@ Here is what the Plugin automatically Pins by default
 - /pinspawners => Toggles the pinning of spawners.
 - /pinleviathans => Toggles the pinning of leviathans.
 - /pindistances => The allowed distance between two entities for auto-pinning.
+###### [Locate]  
+- /locatemerchant => Pins the BlackForest Merchant on your Minimap.
+- /locatebosses => Pins all boss altars on your Minimap.
+###### [Other]  
+- /listlocations [string: name] => Lists ALL World locations in the Console. Does not work on servers.
 ### How To Use
 ##### General
 Open the Console (F5) or chat (Enter) and type in the desired commands. 

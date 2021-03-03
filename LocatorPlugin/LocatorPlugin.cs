@@ -44,10 +44,11 @@ namespace Purps.Valheim.Locator {
             DebugStyle.normal.textColor = Color.green;
             DebugStyle.fontSize = 15;
             CreateCommands();
+            MinimapUtils.OnAwake();
         }
 
         protected override void PluginDestroy() {
-            MinimapUtils.ClearTrackedComponents();
+            MinimapUtils.OnDestroy();
         }
 
         private static void CreateCommands() {
@@ -70,10 +71,12 @@ namespace Purps.Valheim.Locator {
             CommandProcessor.AddCommand(new Command("/listlocations",
                 "Lists all the locations in the Console. Does not work on servers.",
                 WorldUtils.ListLocations));
+
             CommandProcessor.AddCommand(new Command("/listpins", "Lists all your Pins in the Console.",
                 MinimapUtils.ListPins));
             CommandProcessor.AddCommand(new Command("/clearpins", "Clears all your Pins.",
                 MinimapUtils.ClearPins));
+            CommandProcessor.AddCommand(new Command("/pinfilters", "", MinimapUtils.SetPinFilters));
 
             CreateCommandFromConfig(GetConfigData<bool>("debug"));
             CreateCommandFromConfig(GetConfigData<bool>("pinEnabled"));
