@@ -1,13 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Purps.Valheim.Framework;
 using Purps.Valheim.Framework.Config;
-using Purps.Valheim.Locator.Data;
-using Purps.Valheim.Locator.Exceptions;
+using Purps.Valheim.Locator.Components.Data;
+using Purps.Valheim.Locator.Components.Exceptions;
+using UnityEngine;
 
-namespace Purps.Valheim.Locator {
+namespace Purps.Valheim.Locator.Components {
     public class LocatorConfig : BaseConfig {
+        public string[] PinFilters { get; }
+        public List<TrackedObject> DestructibleInclusions { get; }
+        public List<TrackedObject> MineRockInclusions { get; }
+        public List<TrackedObject> LocationInclusions { get; }
+        public List<TrackedObject> PickableInclusions { get; }
+        public List<TrackedObject> SpawnerInclusions { get; }
+        public List<TrackedObject> VegvisirInclusions { get; }
+        public List<TrackedObject> LeviathanInclusions { get; }
+
         public LocatorConfig(BasePlugin plugin) : base(plugin) {
             ReadValueFromConfig(
                 new ConfigData<bool>("General", "debug",
@@ -43,6 +54,8 @@ namespace Purps.Valheim.Locator {
             ReadValueFromConfig(
                 new ConfigData<bool>("AutoPin", "pinLeviathans",
                     "Toggles the pinning of leviathans.", true));
+
+            PinFilters = GetPinFilters("pinFilters", "Default pin filters.");
 
             DestructibleInclusions =
                 GetInclusionList(
@@ -81,13 +94,17 @@ namespace Purps.Valheim.Locator {
                     "Inclusion list for leviathans.");
         }
 
-        public List<TrackedObject> DestructibleInclusions { get; }
-        public List<TrackedObject> MineRockInclusions { get; }
-        public List<TrackedObject> LocationInclusions { get; }
-        public List<TrackedObject> PickableInclusions { get; }
-        public List<TrackedObject> SpawnerInclusions { get; }
-        public List<TrackedObject> VegvisirInclusions { get; }
-        public List<TrackedObject> LeviathanInclusions { get; }
+        private string[] GetPinFilters(string name, string description) {
+            var configString = plugin.Config.Bind("Pins", name, "", description).Value;
+
+            if (string.IsNullOrWhiteSpace(configString)) return null;
+            var sanitizedConfigString =
+                string.Join(" ", configString.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
+
+            Debug.Log(sanitizedConfigString);
+            
+            return sanitizedConfigString.Split(' ');
+        }
 
         private List<TrackedObject> GetInclusionList(string name, string defaultValue, string description) {
             var configString = plugin.Config.Bind("Inclusions", name, "", description).Value;

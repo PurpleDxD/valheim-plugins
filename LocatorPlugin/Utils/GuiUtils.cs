@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Purps.Valheim.Locator.Utils {
+namespace Purps.Valheim.Locator.Components.Utils {
     public static class GuiUtils {
         public static void DrawOutline(Rect position, string text, GUIStyle style) {
             var originalColor = style.normal.textColor;

@@ -2,7 +2,7 @@
 using Purps.Valheim.Framework;
 using UnityEngine;
 
-namespace Purps.Valheim.Locator.Patches {
+namespace Purps.Valheim.Locator.Components.Patches {
     [HarmonyPatch(typeof(Console), "InputText")]
     public class ConsolePatch {
         [HarmonyPostfix]

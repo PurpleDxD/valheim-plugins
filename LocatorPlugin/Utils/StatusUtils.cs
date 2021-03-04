@@ -1,6 +1,6 @@
 ﻿using Purps.Valheim.Framework.Utils;
 
-namespace Purps.Valheim.Locator.Utils {
+namespace Purps.Valheim.Locator.Components.Utils {
     public static class StatusUtils {
         public static bool IsPlayerLoaded() {
             if (Player.m_localPlayer != null) return true;

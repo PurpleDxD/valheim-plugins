@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
 using HarmonyLib;
-using Purps.Valheim.Locator.Utils;
+using Purps.Valheim.Locator.Components.Utils;
 using UnityEngine;
 
-namespace Purps.Valheim.Locator.Patches {
+namespace Purps.Valheim.Locator.Components.Patches {
     [HarmonyPatch(typeof(Minimap), "OnMapRightClick")]
     public static class MinimapPatch {
         [HarmonyPostfix]

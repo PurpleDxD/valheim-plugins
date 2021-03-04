@@ -33,7 +33,7 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="CustomMinimapData.cs" />
+        <Compile Include="Components\CustomMinimapData.cs" />
         <Compile Include="Data\TrackedObject.cs" />
         <Compile Include="Exceptions\MappingException.cs" />
         <Compile Include="LocatorConfig.cs" />

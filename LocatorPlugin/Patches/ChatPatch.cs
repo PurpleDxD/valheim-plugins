@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Purps.Valheim.Framework;
 
-namespace Purps.Valheim.Locator.Patches {
+namespace Purps.Valheim.Locator.Components.Patches {
     [HarmonyPatch(typeof(Chat), "InputText")]
     public class ChatPatch {
         [HarmonyPostfix]

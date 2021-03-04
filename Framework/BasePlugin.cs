@@ -26,7 +26,7 @@ namespace Purps.Valheim.Framework {
         private void OnDestroy() {
             var harmony = new Harmony(PluginGuid);
             harmony.UnpatchSelf();
-            BaseConfig.configData.Clear();
+            BaseConfig.configDatas.Clear();
             BaseConfig = null;
             CommandProcessor.ClearCommands();
             CommandProcessor = null;
@@ -39,7 +39,7 @@ namespace Purps.Valheim.Framework {
         protected abstract void PluginDestroy();
 
         public static ConfigData<T> GetConfigData<T>(string key) {
-            return BaseConfig.configData.GetValue<ConfigData<T>>(key);
+            return BaseConfig.configDatas.GetValue<ConfigData<T>>(key);
         }
 
         public static void ExecuteCommand(string text) {

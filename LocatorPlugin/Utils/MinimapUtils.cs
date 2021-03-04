@@ -4,11 +4,11 @@ using System.Linq;
 using HarmonyLib;
 using Purps.Valheim.Framework;
 using Purps.Valheim.Framework.Utils;
-using Purps.Valheim.Locator.Data;
+using Purps.Valheim.Locator.Components.Data;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Purps.Valheim.Locator.Utils {
+namespace Purps.Valheim.Locator.Components.Utils {
     public static class MinimapUtils {
         private static readonly HashSet<Component> TrackedComponents = new HashSet<Component>();
 
@@ -49,6 +49,7 @@ namespace Purps.Valheim.Locator.Utils {
             Minimap.instance.GetComponent<CustomMinimapData>().PinFilters = parameters;
 
         public static string[] GetPinFilters() => Minimap.instance.GetComponent<CustomMinimapData>().PinFilters;
+
 
         public static List<Minimap.PinData> MapPins =>
             Traverse.Create(Minimap.instance)?.Field("m_pins").GetValue<List<Minimap.PinData>>() ??
@@ -169,7 +170,7 @@ namespace Purps.Valheim.Locator.Utils {
         }
 
         public static void OnAwake() {
-            Minimap.instance?.gameObject.AddComponent<CustomMinimapData>();
+            Minimap.instance.gameObject.AddComponent<CustomMinimapData>();
         }
 
         private static bool ShouldPinRender(Minimap.PinData pin) {

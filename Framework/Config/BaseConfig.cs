@@ -2,7 +2,7 @@
 
 namespace Purps.Valheim.Framework.Config {
     public abstract class BaseConfig {
-        public readonly GenericDictionary configData = new GenericDictionary();
+        public readonly GenericDictionary configDatas = new GenericDictionary();
 
         protected readonly BasePlugin plugin;
 
@@ -14,7 +14,7 @@ namespace Purps.Valheim.Framework.Config {
             configData.value = plugin.Config
                 .Bind(configData.Section, configData.Key, configData.value, configData.Description).Value;
 
-            this.configData.Add(configData.Key, configData);
+            configDatas.Add(configData.Key, configData);
         }
     }
 }
