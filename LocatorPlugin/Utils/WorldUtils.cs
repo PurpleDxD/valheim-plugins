@@ -42,9 +42,10 @@ namespace Purps.Valheim.Locator.Components.Utils {
         public static void ListLocations(string[] parameters) {
             if (!StatusUtils.IsPlayerLoaded() || !StatusUtils.IsPlayerOffline()) return;
             var locations = MapLocations;
+
             if (parameters != null && parameters.Length > 0)
                 locations = locations.FindAll(location =>
-                    parameters.Contains(location.m_location.m_prefabName.Replace(' ', '-')));
+                    parameters.Any(location.m_location.m_prefabName.ToLower().Replace(' ', '-').Contains));
 
             locations.ForEach(location =>
                 ConsoleUtils.WriteToConsole(location.m_location.m_prefabName, location.m_position.ToString()));

@@ -82,7 +82,7 @@ namespace Purps.Valheim.Locator.Components.Utils {
             if (!IsMinimapAvailable()) return;
             var pins = MapPins;
             if (parameters != null && parameters.Length > 0)
-                pins = pins.FindAll(pin => parameters.Contains(pin.m_name.ToLower().Replace(' ', '_')));
+                pins = pins.FindAll(pin => parameters.Any(pin.m_name.ToLower().Replace(' ', '_').Contains));
 
             pins.ForEach(pin =>
                 ConsoleUtils.WriteToConsole(pin.m_name, pin.m_pos.ToString(),
