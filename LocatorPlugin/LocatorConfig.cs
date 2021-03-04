@@ -3,110 +3,140 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Purps.Valheim.Framework;
+using Purps.Valheim.Framework.Commands;
 using Purps.Valheim.Framework.Config;
 using Purps.Valheim.Locator.Components.Data;
 using Purps.Valheim.Locator.Components.Exceptions;
-using UnityEngine;
+using Purps.Valheim.Locator.Components.Utils;
 
 namespace Purps.Valheim.Locator.Components {
     public class LocatorConfig : BaseConfig {
-        public string[] PinFilters { get; }
-        public List<TrackedObject> DestructibleInclusions { get; }
-        public List<TrackedObject> MineRockInclusions { get; }
-        public List<TrackedObject> LocationInclusions { get; }
-        public List<TrackedObject> PickableInclusions { get; }
-        public List<TrackedObject> SpawnerInclusions { get; }
-        public List<TrackedObject> VegvisirInclusions { get; }
-        public List<TrackedObject> LeviathanInclusions { get; }
-
         public LocatorConfig(BasePlugin plugin) : base(plugin) {
-            ReadValueFromConfig(
-                new ConfigData<bool>("General", "debug",
-                    "Prints useful information to configure your own pinnable item types.", false));
-            ReadValueFromConfig(
-                new ConfigData<bool>("AutoPin", "pinEnabled",
-                    "Enables entity auto-pinning.", true));
-            ReadValueFromConfig(
-                new ConfigData<float>("AutoPin", "pinDistance",
-                    "The allowed distance between two entities for auto-pinning.", 30f));
-            ReadValueFromConfig(
-                new ConfigData<float>("AutoPin", "pinRayDistance",
-                    "How close the to the entity the player must be for it to be auto-pinned.", 25f));
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    new ConfigData<bool>("General", "debug",
+                        "Prints useful information to configure your own pinnable item types.", false)));
+
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    new ConfigData<bool>("AutoPin", "pinEnabled",
+                        "Enables entity auto-pinning.", true)));
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    new ConfigData<float>("AutoPin", "pinDistance",
+                        "The allowed distance between two entities for auto-pinning.", 30f)));
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    new ConfigData<float>("AutoPin", "pinRayDistance",
+                        "How close the to the entity the player must be for it to be auto-pinned.", 25f)));
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    new ConfigData<bool>("AutoPin", "pinDestructibles",
+                        "Toggles the pinning of destructible items.", true)));
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    new ConfigData<bool>("AutoPin", "pinMineRocks",
+                        "Toggles the pinning of mineable rocks.", true)));
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    new ConfigData<bool>("AutoPin", "pinLocations",
+                        "Toggles the pinning of dungeons, caves, altars, runestones, etc.", true)));
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    new ConfigData<bool>("AutoPin", "pinPickables",
+                        "Toggle the pinning of plants and fungi", true)));
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    new ConfigData<bool>("AutoPin", "pinSpawners",
+                        "Toggles the pinning of spawners.", true)));
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    new ConfigData<bool>("AutoPin", "pinVegvisirs",
+                        "Toggles the pinning of boss runestones.", true)));
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    new ConfigData<bool>("AutoPin", "pinLeviathans",
+                        "Toggles the pinning of leviathans.", true)));
+
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    GetPinFilters(
+                        "filterPins", "Default pin filters."), false), MinimapUtils.SetPinFilters);
 
             ReadValueFromConfig(
-                new ConfigData<bool>("AutoPin", "pinDestructibles",
-                    "Toggles the pinning of destructible items.", true));
-            ReadValueFromConfig(
-                new ConfigData<bool>("AutoPin", "pinMineRocks",
-                    "Toggles the pinning of mineable rocks.", true));
-            ReadValueFromConfig(
-                new ConfigData<bool>("AutoPin", "pinLocations",
-                    "Toggles the pinning of dungeons, caves, altars, runestones, etc.", true));
-            ReadValueFromConfig(
-                new ConfigData<bool>("AutoPin", "pinPickables",
-                    "Toggle the pinning of plants and fungi", true));
-            ReadValueFromConfig(
-                new ConfigData<bool>("AutoPin", "pinSpawners",
-                    "Toggles the pinning of spawners.", true));
-            ReadValueFromConfig(
-                new ConfigData<bool>("AutoPin", "pinVegvisirs",
-                    "Toggles the pinning of boss runestones.", true));
-            ReadValueFromConfig(
-                new ConfigData<bool>("AutoPin", "pinLeviathans",
-                    "Toggles the pinning of leviathans.", true));
-
-            PinFilters = GetPinFilters("pinFilters", "Default pin filters.");
-
-            DestructibleInclusions =
                 GetInclusionList(
                     "destructibleInclusions",
                     "{silvervein,Silver,true}{rock3_silver,Silver,true}{MineRock_Tin,Tin,true}{rock4_copper,Copper,true}{MineRock_Obsidian,Obsidian,true}",
-                    "Inclusion list for destructible items.");
-            MineRockInclusions =
+                    "Inclusion list for destructible items."), false);
+            ReadValueFromConfig(
                 GetInclusionList(
                     "mineRockInclusions",
                     "{MineRock_Meteorite,Meteorite,true}",
-                    "Inclusion list for minable rocks.");
-            LocationInclusions =
+                    "Inclusion list for minable rocks."), false);
+            ReadValueFromConfig(
                 GetInclusionList(
                     "locationInclusions",
                     "{DrakeLorestone,Runestone,true}{TrollCave,Troll,true}{Crypt,Crypt,true}{SunkenCrypt,Crypt,true}{Grave,Grave,true}{DrakeNest,Egg,true}{Runestone,Runestone,true}{Eikthyrnir,Eikthyr,true}{GDKing,The Elder,true}{Bonemass,Bonemass,true}{Dragonqueen,Moder,true}{GoblinKing,Yagluth,true}",
-                    "Inclusion list for locations.");
-            PickableInclusions =
+                    "Inclusion list for locations."), false);
+            ReadValueFromConfig(
                 GetInclusionList(
                     "pickableInclusions",
                     "{BlueberryBush,BlueBerry,true}{CloudberryBush,Cloudberry,true}{RaspberryBush,Raspberry,true}{Pickable_Barley,Barley,true}{Pickable_Flax,Flax,true}{Pickable_Thistle,Thistle,true}{Pickable_Mushroom,Mushroom,true}{Pickable_SeedCarrot,Carrot,true}{Pickable_Dandelion,Dandelion,true}{Pickable_SeedTurnip,Turnip,true}",
-                    "Inclusion list for pickable items.");
-            SpawnerInclusions =
+                    "Inclusion list for pickable items."), false);
+            ReadValueFromConfig(
                 GetInclusionList(
                     "spawnerInclusions",
                     "{Spawner,Spawner,true}",
-                    "Inclusion list for spawners.");
-            VegvisirInclusions =
+                    "Inclusion list for spawners."), false);
+            ReadValueFromConfig(
                 GetInclusionList(
                     "vegvisirInclusions",
                     "{Vegvisir,Runestone,true}",
-                    "Inclusion list for boss runestones.");
-            LeviathanInclusions =
+                    "Inclusion list for boss runestones."), false);
+            ReadValueFromConfig(
                 GetInclusionList(
-                    "spawnerInclusions",
+                    "leviathanInclusions",
                     "{Leviathan,Leviathan,true}",
-                    "Inclusion list for leviathans.");
+                    "Inclusion list for leviathans."), false);
         }
 
-        private string[] GetPinFilters(string name, string description) {
+        private static void CreateCommandFromConfig<T>(ConfigData<T> configData, Action<string[]> action = null) {
+            BasePlugin.CommandProcessor.AddCommand(new Command(
+                $"/{configData.Key}", configData.Description,
+                action ?? (parameters => SetValue(configData, parameters))));
+        }
+
+        private static void SetValue<T>(ConfigData<T> configData, string[] parameters) {
+            switch (configData.value) {
+                case bool value:
+                    value ^= true;
+                    configData.value = (T) (object) value;
+                    break;
+                case float value:
+                    if (parameters.Length > 0f && float.TryParse(parameters[0], out var parsedParameter))
+                        configData.value = (T) (object) parsedParameter;
+                    break;
+                case string[] value:
+                    MinimapUtils.SetPinFilters(value);
+                    break;
+            }
+        }
+
+        private ConfigData<string[]> GetPinFilters(string name, string description) {
             var configString = plugin.Config.Bind("Pins", name, "", description).Value;
 
-            if (string.IsNullOrWhiteSpace(configString)) return null;
-            var sanitizedConfigString =
-                string.Join(" ", configString.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
+            string[] value = null;
 
-            Debug.Log(sanitizedConfigString);
-            
-            return sanitizedConfigString.Split(' ');
+            if (!string.IsNullOrWhiteSpace(configString)) {
+                value = string.Join(" ", configString.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries))
+                    .Split(' ');
+            }
+
+            return new ConfigData<string[]>("Pins", name, description, value);
         }
 
-        private List<TrackedObject> GetInclusionList(string name, string defaultValue, string description) {
+        private ConfigData<List<TrackedObject>> GetInclusionList(string name, string defaultValue,
+            string description) {
             var configString = plugin.Config.Bind("Inclusions", name, "", description).Value;
 
             if (string.IsNullOrWhiteSpace(configString)) configString = defaultValue;
@@ -115,7 +145,10 @@ namespace Purps.Valheim.Locator.Components {
                 .Cast<Match>()
                 .Select(m => m.Groups[0].Value)
                 .ToList();
-            return inclusionsDataList.Select(i => GetInclusionObject(name, i)).ToList();
+
+            var inclusionsList = inclusionsDataList.Select(i => GetInclusionObject(name, i)).ToList();
+
+            return new ConfigData<List<TrackedObject>>("Inclusions", name, description, inclusionsList);
         }
 
         private static TrackedObject GetInclusionObject(string name, string data) {

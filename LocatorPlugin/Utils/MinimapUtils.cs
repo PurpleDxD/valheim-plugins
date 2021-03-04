@@ -17,39 +17,41 @@ namespace Purps.Valheim.Locator.Components.Utils {
                 {
                     typeof(Destructible),
                     Tuple.Create(BasePlugin.GetConfigData<bool>("pinDestructibles").value,
-                        LocatorPlugin.Config.DestructibleInclusions)
+                        BasePlugin.GetConfigData<List<TrackedObject>>("destructibleInclusions").value)
                 }, {
                     typeof(MineRock),
                     Tuple.Create(BasePlugin.GetConfigData<bool>("pinMineRocks").value,
-                        LocatorPlugin.Config.MineRockInclusions)
+                        BasePlugin.GetConfigData<List<TrackedObject>>("mineRockInclusions").value)
                 }, {
                     typeof(Location),
                     Tuple.Create(BasePlugin.GetConfigData<bool>("pinLocations").value,
-                        LocatorPlugin.Config.LocationInclusions)
+                        BasePlugin.GetConfigData<List<TrackedObject>>("locationInclusions").value)
                 }, {
                     typeof(Pickable),
                     Tuple.Create(BasePlugin.GetConfigData<bool>("pinPickables").value,
-                        LocatorPlugin.Config.PickableInclusions)
+                        BasePlugin.GetConfigData<List<TrackedObject>>("pickableInclusions").value)
                 }, {
                     typeof(SpawnArea),
                     Tuple.Create(BasePlugin.GetConfigData<bool>("pinSpawners").value,
-                        LocatorPlugin.Config.SpawnerInclusions)
+                        BasePlugin.GetConfigData<List<TrackedObject>>("spawnerInclusions").value)
                 }, {
                     typeof(Vegvisir),
                     Tuple.Create(BasePlugin.GetConfigData<bool>("pinVegvisirs").value,
-                        LocatorPlugin.Config.VegvisirInclusions)
+                        BasePlugin.GetConfigData<List<TrackedObject>>("vegvisirInclusions").value)
                 }, {
                     typeof(Leviathan),
                     Tuple.Create(BasePlugin.GetConfigData<bool>("pinLeviathans").value,
-                        LocatorPlugin.Config.LeviathanInclusions)
+                        BasePlugin.GetConfigData<List<TrackedObject>>("leviathanInclusions").value)
                 }
             };
 
-        public static void SetPinFilters(string[] parameters) =>
-            Minimap.instance.GetComponent<CustomMinimapData>().PinFilters = parameters;
-
         public static string[] GetPinFilters() => Minimap.instance.GetComponent<CustomMinimapData>().PinFilters;
 
+        public static void SetPinFilters(string[] parameters) {
+            if (!StatusUtils.IsPlayerLoaded()) return;
+            if (!IsMinimapAvailable()) return;
+            Minimap.instance.GetComponent<CustomMinimapData>().PinFilters = parameters;
+        }
 
         public static List<Minimap.PinData> MapPins =>
             Traverse.Create(Minimap.instance)?.Field("m_pins").GetValue<List<Minimap.PinData>>() ??
@@ -81,7 +83,7 @@ namespace Purps.Valheim.Locator.Components.Utils {
             var pins = MapPins;
             if (parameters != null && parameters.Length > 0)
                 pins = pins.FindAll(pin => parameters.Contains(pin.m_name.ToLower().Replace(' ', '_')));
-            
+
             pins.ForEach(pin =>
                 ConsoleUtils.WriteToConsole(pin.m_name, pin.m_pos.ToString(),
                     $"({pin.m_type.ToString()}) {pin.m_icon.name}"));
@@ -170,7 +172,7 @@ namespace Purps.Valheim.Locator.Components.Utils {
         }
 
         public static void OnAwake() {
-            Minimap.instance.gameObject.AddComponent<CustomMinimapData>();
+            Minimap.instance?.gameObject.AddComponent<CustomMinimapData>();
         }
 
         private static bool ShouldPinRender(Minimap.PinData pin) {

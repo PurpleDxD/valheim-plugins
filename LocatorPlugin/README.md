@@ -101,6 +101,7 @@ Allow pin creation at current x,y,z using key-binds.
 5. 1.0.5 => Optimizations. Fix TrollCave pin name. Add debug text (top left) if enabled.
 6. 1.0.6 => Handle Multiple item_ids in a single command. Change berry bush categories. Fix shouldTrack property.
 7. 1.0.7 => Add a pin filtering system. Add new config options.
+8. 1.0.8 => Fix a silly NPE. Change /pinFilters to /filterPins
 
 ## How To Use
 ### General

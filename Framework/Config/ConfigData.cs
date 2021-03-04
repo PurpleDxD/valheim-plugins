@@ -11,5 +11,9 @@
             Description = description;
             this.value = value;
         }
+
+        public override string ToString() {
+            return $"{GetType().Name}[Description={Description}, Key={Key}, Section={Section}, Value={value}]";
+        }
     }
 }

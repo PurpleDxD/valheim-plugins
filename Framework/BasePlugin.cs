@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Purps.Valheim.Framework {
     public abstract class BasePlugin : BaseUnityPlugin {
         protected static BaseConfig BaseConfig;
-        protected static CommandProcessor CommandProcessor;
+        public static CommandProcessor CommandProcessor;
 
         private readonly string PluginGuid;
 
@@ -16,8 +16,8 @@ namespace Purps.Valheim.Framework {
         }
 
         private void Awake() {
-            BaseConfig = GetConfig();
             CommandProcessor = new CommandProcessor();
+            BaseConfig = GetConfig();
             PluginAwake();
             var harmony = new Harmony(PluginGuid);
             harmony.PatchAll();

@@ -13,7 +13,7 @@ namespace Purps.Valheim.Locator.Components {
     public class LocatorPlugin : BasePlugin {
         private const string PluginGuid = "purps.valheim.locator";
         private const string PluginName = "Locator";
-        private const string PluginVersion = "1.0.0";
+        private const string PluginVersion = "1.0.8";
 
         private const string Description = "Finds and pins various Valheim locations / entities on the minimap!";
         private const string Author = "Purps";
@@ -51,7 +51,7 @@ namespace Purps.Valheim.Locator.Components {
             MinimapUtils.OnDestroy();
         }
 
-        private static void CreateCommands() {
+        private void CreateCommands() {
             CommandProcessor.AddCommand(new Command("/locator-commands",
                 "Displays all commands provided by the Locator plugin.", CommandProcessor.PrintCommands, false));
 
@@ -77,38 +77,6 @@ namespace Purps.Valheim.Locator.Components {
             CommandProcessor.AddCommand(new Command("/clearpins", "Clears all your Pins.",
                 MinimapUtils.ClearPins));
             CommandProcessor.AddCommand(new Command("/pinfilters", "", MinimapUtils.SetPinFilters));
-
-            CreateCommandFromConfig(GetConfigData<bool>("debug"));
-            CreateCommandFromConfig(GetConfigData<bool>("pinEnabled"));
-            CreateCommandFromConfig(GetConfigData<float>("pinDistance"));
-            CreateCommandFromConfig(GetConfigData<float>("pinRayDistance"));
-            CreateCommandFromConfig(GetConfigData<bool>("pinDestructibles"));
-            CreateCommandFromConfig(GetConfigData<bool>("pinMineRocks"));
-            CreateCommandFromConfig(GetConfigData<bool>("pinLocations"));
-            CreateCommandFromConfig(GetConfigData<bool>("pinPickables"));
-            CreateCommandFromConfig(GetConfigData<bool>("pinSpawners"));
-            CreateCommandFromConfig(GetConfigData<bool>("pinVegvisirs"));
-            CreateCommandFromConfig(GetConfigData<bool>("pinLeviathans"));
-        }
-
-        private static void CreateCommandFromConfig<T>(ConfigData<T> configData) {
-            CommandProcessor.AddCommand(new Command(
-                $"/{configData.Key}", configData.Description, parameters => SetValue(configData, parameters)));
-        }
-
-        private static void SetValue<T>(ConfigData<T> configData, string[] parameters) {
-            switch (configData.value) {
-                case bool value:
-                    value ^= true;
-                    configData.value = (T) (object) value;
-                    break;
-                case float value:
-                    if (parameters.Length > 0f && float.TryParse(parameters[0], out var parsedParameter))
-                        configData.value = (T) (object) parsedParameter;
-                    break;
-                default:
-                    throw new NotSupportedException($"Type {configData.value} is not supported.");
-            }
         }
 
         protected override BaseConfig GetConfig() {
