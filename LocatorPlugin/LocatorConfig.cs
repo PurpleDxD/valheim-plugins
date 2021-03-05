@@ -5,11 +5,11 @@ using System.Text.RegularExpressions;
 using Purps.Valheim.Framework;
 using Purps.Valheim.Framework.Commands;
 using Purps.Valheim.Framework.Config;
-using Purps.Valheim.Locator.Components.Data;
-using Purps.Valheim.Locator.Components.Exceptions;
-using Purps.Valheim.Locator.Components.Utils;
+using Purps.Valheim.Locator.Data;
+using Purps.Valheim.Locator.Exceptions;
+using Purps.Valheim.Locator.Utils;
 
-namespace Purps.Valheim.Locator.Components {
+namespace Purps.Valheim.Locator {
     public class LocatorConfig : BaseConfig {
         public LocatorConfig(BasePlugin plugin) : base(plugin) {
             CreateCommandFromConfig(
@@ -127,10 +127,9 @@ namespace Purps.Valheim.Locator.Components {
 
             string[] value = null;
 
-            if (!string.IsNullOrWhiteSpace(configString)) {
+            if (!string.IsNullOrWhiteSpace(configString))
                 value = string.Join(" ", configString.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries))
                     .Split(' ');
-            }
 
             return new ConfigData<string[]>("Pins", name, description, value);
         }

@@ -1,4 +1,4 @@
-﻿namespace Purps.Valheim.Locator.Components.Data {
+﻿namespace Purps.Valheim.Locator.Data {
     public class TrackedObject {
         public TrackedObject(string name, string pinName, bool shouldTrack) {
             Name = name;

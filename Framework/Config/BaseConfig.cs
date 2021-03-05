@@ -1,5 +1,4 @@
 ﻿using Purps.Valheim.Framework.Data;
-using UnityEngine;
 
 namespace Purps.Valheim.Framework.Config {
     public abstract class BaseConfig {

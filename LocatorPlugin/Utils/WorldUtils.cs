@@ -4,7 +4,7 @@ using System.Linq;
 using Purps.Valheim.Framework.Utils;
 using UnityEngine;
 
-namespace Purps.Valheim.Locator.Components.Utils {
+namespace Purps.Valheim.Locator.Utils {
     public static class WorldUtils {
         private static readonly List<Vector3> locationPoints = GenerateLocationPoints();
 

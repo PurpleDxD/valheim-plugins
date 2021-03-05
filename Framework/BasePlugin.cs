@@ -2,7 +2,6 @@
 using HarmonyLib;
 using Purps.Valheim.Framework.Commands;
 using Purps.Valheim.Framework.Config;
-using UnityEngine;
 
 namespace Purps.Valheim.Framework {
     public abstract class BasePlugin : BaseUnityPlugin {

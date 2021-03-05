@@ -4,11 +4,12 @@ using System.Linq;
 using HarmonyLib;
 using Purps.Valheim.Framework;
 using Purps.Valheim.Framework.Utils;
-using Purps.Valheim.Locator.Components.Data;
+using Purps.Valheim.Locator.Components;
+using Purps.Valheim.Locator.Data;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Purps.Valheim.Locator.Components.Utils {
+namespace Purps.Valheim.Locator.Utils {
     public static class MinimapUtils {
         private static readonly HashSet<Component> TrackedComponents = new HashSet<Component>();
 
@@ -45,7 +46,13 @@ namespace Purps.Valheim.Locator.Components.Utils {
                 }
             };
 
-        public static string[] GetPinFilters() => Minimap.instance.GetComponent<CustomMinimapData>().PinFilters;
+        public static List<Minimap.PinData> MapPins =>
+            Traverse.Create(Minimap.instance)?.Field("m_pins").GetValue<List<Minimap.PinData>>() ??
+            new List<Minimap.PinData>();
+
+        public static string[] GetPinFilters() {
+            return Minimap.instance.GetComponent<CustomMinimapData>().PinFilters;
+        }
 
         public static void SetPinFilters(string[] parameters) {
             if (!StatusUtils.IsPlayerLoaded()) return;
@@ -53,11 +60,9 @@ namespace Purps.Valheim.Locator.Components.Utils {
             Minimap.instance.GetComponent<CustomMinimapData>().PinFilters = parameters;
         }
 
-        public static List<Minimap.PinData> MapPins =>
-            Traverse.Create(Minimap.instance)?.Field("m_pins").GetValue<List<Minimap.PinData>>() ??
-            new List<Minimap.PinData>();
-
-        public static bool IsMinimapAvailable() => Minimap.instance != null;
+        public static bool IsMinimapAvailable() {
+            return Minimap.instance != null;
+        }
 
         public static void Update() {
             if (!IsMinimapAvailable()) return;
@@ -89,8 +94,9 @@ namespace Purps.Valheim.Locator.Components.Utils {
                     $"({pin.m_type.ToString()}) {pin.m_icon.name}"));
         }
 
-        public static void AddPin(string name, Vector3 position, Minimap.PinType type) =>
+        public static void AddPin(string name, Vector3 position, Minimap.PinType type) {
             Minimap.instance.AddPin(position, type, name, true, false);
+        }
 
         public static void RemovePin(Minimap.PinData pin) {
             if (!IsMinimapAvailable()) return;
@@ -163,8 +169,9 @@ namespace Purps.Valheim.Locator.Components.Utils {
             return trackedObject;
         }
 
-        private static float Vector2DDistance(Vector3 v1, Vector3 v2) =>
-            Mathf.Sqrt(Mathf.Pow(Mathf.Abs(v1.x - v2.x), 2f) + Mathf.Pow(Mathf.Abs(v1.z - v2.z), 2f));
+        private static float Vector2DDistance(Vector3 v1, Vector3 v2) {
+            return Mathf.Sqrt(Mathf.Pow(Mathf.Abs(v1.x - v2.x), 2f) + Mathf.Pow(Mathf.Abs(v1.z - v2.z), 2f));
+        }
 
         public static void OnDestroy() {
             Object.Destroy(Minimap.instance?.gameObject.GetComponent<CustomMinimapData>());
@@ -181,7 +188,8 @@ namespace Purps.Valheim.Locator.Components.Utils {
             return pinFilters.Count(filter => pin.m_name.ToLower().Replace(' ', '_').Contains(filter)) != 0;
         }
 
-        public static void FilterPins() =>
+        public static void FilterPins() {
             MapPins.ForEach(pin => pin.m_uiElement?.gameObject.SetActive(ShouldPinRender(pin)));
+        }
     }
 }

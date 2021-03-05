@@ -4,10 +4,10 @@ using BepInEx;
 using Purps.Valheim.Framework;
 using Purps.Valheim.Framework.Commands;
 using Purps.Valheim.Framework.Config;
-using Purps.Valheim.Locator.Components.Utils;
+using Purps.Valheim.Locator.Utils;
 using UnityEngine;
 
-namespace Purps.Valheim.Locator.Components {
+namespace Purps.Valheim.Locator {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     [BepInProcess("valheim.exe")]
     public class LocatorPlugin : BasePlugin {

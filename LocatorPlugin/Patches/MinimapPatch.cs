@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
 using HarmonyLib;
-using Purps.Valheim.Locator.Components.Utils;
+using Purps.Valheim.Locator.Utils;
 using UnityEngine;
 
-namespace Purps.Valheim.Locator.Components.Patches {
+namespace Purps.Valheim.Locator.Patches {
     [HarmonyPatch(typeof(Minimap), "OnMapRightClick")]
     public static class MinimapPatch {
         [HarmonyPostfix]
@@ -19,7 +19,7 @@ namespace Purps.Valheim.Locator.Components.Patches {
         internal static void UpdatePins(Minimap __instance) {
             MinimapUtils.FilterPins();
         }
-        
+
         [HarmonyPatch(typeof(Minimap), "Awake")]
         [HarmonyPostfix]
         internal static void Awake(Minimap __instance) {
@@ -31,6 +31,5 @@ namespace Purps.Valheim.Locator.Components.Patches {
         internal static void OnDestroy(Minimap __instance) {
             MinimapUtils.OnDestroy();
         }
-        
     }
 }
