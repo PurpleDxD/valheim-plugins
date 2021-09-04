@@ -7,3 +7,8 @@ Hopefully I'll be able to come back to the valheim modding scene soon enough!
 
 ## Note
 This will most likely not work anymore due to the many patches that have been released since the last commit.
+
+## Nexus links
+* [Locate Merchant](https://www.nexusmods.com/valheim/mods/143)
+* [Locator](https://www.nexusmods.com/valheim/mods/182)
+* [Skip Intro](https://www.nexusmods.com/valheim/mods/208)
