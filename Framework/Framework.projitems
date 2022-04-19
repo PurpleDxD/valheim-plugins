@@ -10,11 +10,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)BasePlugin.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\PluginContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\PluginLogger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\PluginGUI.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Data\" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\Command.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandProcessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ICommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\BaseConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ConfigData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\GenericDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\ConsoleUtils.cs" />
   </ItemGroup>
 </Project>

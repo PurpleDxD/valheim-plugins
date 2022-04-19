@@ -36,14 +36,14 @@
     <Reference Include="0Harmony">
       <HintPath>..\Libraries\0Harmony.dll</HintPath>
     </Reference>
+    <Reference Include="assembly_utils">
+      <HintPath>..\Libraries\assembly_utils.dll</HintPath>
+    </Reference>
     <Reference Include="assembly_valheim">
       <HintPath>..\Libraries\assembly_valheim.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
       <HintPath>..\Libraries\BepInEx.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMod.Utils">
-      <HintPath>..\Libraries\MonoMod.Utils.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,14 +63,36 @@
     <Reference Include="UnityEngine.IMGUIModule">
       <HintPath>..\Libraries\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.SharedInternalsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\UnityEngine.SharedInternalsModule.dll</HintPath>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\Libraries\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\Libraries\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\Libraries\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>..\Libraries\UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\Libraries\UnityEngine.UIModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\CustomMinimapData.cs" />
+    <Compile Include="Data\TrackedObject.cs" />
+    <Compile Include="Exceptions\MappingException.cs" />
+    <Compile Include="LocatorConfig.cs" />
     <Compile Include="LocatorPlugin.cs" />
+    <Compile Include="Patches\ChatPatch.cs" />
+    <Compile Include="Patches\TerminalPatch.cs" />
+    <Compile Include="Patches\MinimapPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\GuiUtils.cs" />
+    <Compile Include="Utils\MinimapUtils.cs" />
+    <Compile Include="Utils\StatusUtils.cs" />
+    <Compile Include="Utils\WorldUtils.cs" />
   </ItemGroup>
   <Import Project="..\Framework\Framework.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
