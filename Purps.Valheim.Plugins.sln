@@ -1,28 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocatorPlugin", "LocatorPlugin\LocatorPlugin.csproj", "{73A7AD8F-00F2-4415-9082-8781FF6BFE4C}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocatorPlugin", "LocatorPlugin\LocatorPlugin.csproj", "{3A28CA24-E72A-4D3B-AE30-21FF135FF61A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkipIntroPlugin", "SkipIntroPlugin\SkipIntroPlugin.csproj", "{45875CB0-0D00-4785-B0DB-9AC37514C0CF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Framework\Framework.csproj", "{5CB3AD21-D748-4948-93D3-1834A1810A6F}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Framework", "Framework\Framework.shproj", "{CD90B57E-FC21-473C-8220-FC883C975693}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Framework\Framework.projitems*{3a28ca24-e72a-4d3b-ae30-21ff135ff61a}*SharedItemsImports = 4
+		Framework\Framework.projitems*{cd90b57e-fc21-473c-8220-fc883c975693}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{73A7AD8F-00F2-4415-9082-8781FF6BFE4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73A7AD8F-00F2-4415-9082-8781FF6BFE4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73A7AD8F-00F2-4415-9082-8781FF6BFE4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73A7AD8F-00F2-4415-9082-8781FF6BFE4C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{45875CB0-0D00-4785-B0DB-9AC37514C0CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45875CB0-0D00-4785-B0DB-9AC37514C0CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45875CB0-0D00-4785-B0DB-9AC37514C0CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45875CB0-0D00-4785-B0DB-9AC37514C0CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5CB3AD21-D748-4948-93D3-1834A1810A6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CB3AD21-D748-4948-93D3-1834A1810A6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5CB3AD21-D748-4948-93D3-1834A1810A6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5CB3AD21-D748-4948-93D3-1834A1810A6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A28CA24-E72A-4D3B-AE30-21FF135FF61A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A28CA24-E72A-4D3B-AE30-21FF135FF61A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A28CA24-E72A-4D3B-AE30-21FF135FF61A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A28CA24-E72A-4D3B-AE30-21FF135FF61A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {22306F4A-C1DB-493A-A619-E5AD79F6A643}
 	EndGlobalSection
 EndGlobal
