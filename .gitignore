@@ -14,9 +14,6 @@ _UpgradeReport_Files/
 Thumbs.db
 Desktop.ini
 .DS_Store
-
-**/Libraries/**/*.dll
-**/Properties/**/*.cs
-/ValheimUtils/Properties/AssemblyInfo.cs
-/LocatorPlugin/packages.config
-/SkipIntroPlugin/packages.config
+/Tools
+/.editorconfig
+/Libraries

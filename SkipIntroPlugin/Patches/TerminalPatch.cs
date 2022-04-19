@@ -2,10 +2,10 @@
 using Purps.Valheim.Framework;
 
 namespace Purps.Valheim.SkipIntro.Patches {
-    [HarmonyPatch(typeof(Console), "InputText")]
-    public class ConsolePatch {
+    [HarmonyPatch(typeof(Terminal), "InputText")]
+    public class TerminalPatch {
         [HarmonyPostfix]
-        internal static void Postfix(Console __instance) {
+        internal static void Postfix(Terminal __instance) {
             var commandStr = __instance.m_input.text;
             if (!string.IsNullOrWhiteSpace(commandStr))
                 BasePlugin.ExecuteCommand(__instance.m_input.text);

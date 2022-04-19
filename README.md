@@ -1,12 +1,13 @@
 # Valheim-Plugins
-This repository will not be maintained for the forseeable future. This was my first time creating a plugin and it was an amazing experience but I've moved on to other things.
-
 I got a lot of requests to open-source this project, so here it is. :)
 
-Hopefully I'll be able to come back to the valheim modding scene soon enough!
+I'm back! I would like to apologize for being MIA for so long - IRL stuff got in the way but it's all sorted out now.
 
-## Note
-This will most likely not work anymore due to the many patches that have been released since the last commit.
+Since my departure, there have been so many updates that most features of my plugins were broken. I've went ahead and fixed them (so that they ***should*** work as intended) but I was not able to verify 100% of the features.
+
+Specifically for the [Locator Plugin](https://github.com/purpledxd/Valheim-Plugins/tree/master/LocatorPlugin), the auto-pinning / config system works (from my limited testing) but I believe some of the commands are broken. 
+
+I will be rewriting my plugins from scratch and add the features that it should have had from the beginning. See the Nexus thread of Locator for updates.
 
 ## Nexus links
 * [Locate Merchant](https://www.nexusmods.com/valheim/mods/143)

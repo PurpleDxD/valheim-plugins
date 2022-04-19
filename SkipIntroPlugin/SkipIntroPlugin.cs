@@ -16,7 +16,7 @@ namespace Purps.Valheim.SkipIntro {
 
         public SkipIntroPlugin() : base(PluginGuid) { }
 
-        public new static SkipIntroConfig Config => (SkipIntroConfig) BaseConfig;
+        public new static SkipIntroConfig Config => (SkipIntroConfig)BaseConfig;
 
         protected override void PluginAwake() {
             CreateCommands();
