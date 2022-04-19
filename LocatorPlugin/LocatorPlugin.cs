@@ -13,7 +13,7 @@ namespace Purps.Valheim.Locator {
     public class LocatorPlugin : BasePlugin {
         private const string PluginGuid = "purps.valheim.locator";
         private const string PluginName = "Locator";
-        private const string PluginVersion = "1.0.8";
+        private const string PluginVersion = "1.0.9";
 
         private const string Description = "Finds and pins various Valheim locations / entities on the minimap!";
         private const string Author = "Purps";

@@ -9,7 +9,7 @@ namespace Purps.Valheim.SkipIntro {
     public class SkipIntroPlugin : BasePlugin {
         private const string PluginGuid = "purps.valheim.skipintro";
         private const string PluginName = "Skip Intro";
-        private const string PluginVersion = "1.0.0";
+        private const string PluginVersion = "1.0.1";
 
         private const string Description = "Skips the bird intro scene with new characters / maps.";
         private const string Author = "Purps";
