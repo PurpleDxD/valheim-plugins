@@ -5,8 +5,6 @@ I'm back! I would like to apologize for being MIA for so long - IRL stuff got in
 
 Since my departure, there have been so many updates that most features of my plugins were broken. I've went ahead and fixed them (so that they ***should*** work as intended) but I was not able to verify 100% of the features.
 
-Specifically for the [Locator Plugin](https://github.com/purpledxd/Valheim-Plugins/tree/master/LocatorPlugin), the auto-pinning / config system works (from my limited testing) but I believe some of the commands are broken. 
-
 I will be rewriting my plugins from scratch and add the features that it should have had from the beginning. See the Nexus thread of Locator for updates.
 
 ## Nexus links
