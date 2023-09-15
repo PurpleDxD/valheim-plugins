@@ -9,10 +9,7 @@ namespace Purps.Valheim.SkipIntro {
     public class SkipIntroPlugin : BasePlugin {
         private const string PluginGuid = "purps.valheim.skipintro";
         private const string PluginName = "Skip Intro";
-        private const string PluginVersion = "1.0.1";
-
-        private const string Description = "Skips the bird intro scene with new characters / maps.";
-        private const string Author = "Purps";
+        private const string PluginVersion = "1.1.0";
 
         public SkipIntroPlugin() : base(PluginGuid) { }
 
@@ -27,10 +24,6 @@ namespace Purps.Valheim.SkipIntro {
         private static void CreateCommands() {
             CommandProcessor.AddCommand(new Command("/skipintro-commands",
                 "Displays all commands provided by the SkipIntro plugin.", CommandProcessor.PrintCommands, false));
-
-            CommandProcessor.AddCommand(new Command("/skipintro",
-                "Defines whether or not the Valkyrie scene (intro) should be skipped.",
-                parameters => Config.SkipIntro ^= true));
         }
 
         protected override BaseConfig GetConfig() {

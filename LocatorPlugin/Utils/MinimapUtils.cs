@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BepInEx;
 using HarmonyLib;
 using Purps.Valheim.Framework;
 using Purps.Valheim.Framework.Utils;
@@ -72,7 +73,7 @@ namespace Purps.Valheim.Locator.Utils {
                 LocatorPlugin.CastMask)) return;
 
             foreach (var type in TrackedTypes.Keys) {
-                var obj = hitInfo.collider.GetComponentInParent(type);
+                var obj = hitInfo.collider.GetComponentInParent(type, false);
                 if (obj != null) {
                     if (BasePlugin.GetConfigData<bool>("debug").value)
                         LocatorPlugin.DebugText = $"name={obj.name}, type={obj.GetType()}";
@@ -189,7 +190,12 @@ namespace Purps.Valheim.Locator.Utils {
         }
 
         public static void FilterPins() {
-            MapPins.ForEach(pin => pin.m_uiElement?.gameObject.SetActive(ShouldPinRender(pin)));
+            MapPins.ForEach(pin =>
+            {
+                bool shouldPinRender = ShouldPinRender(pin);
+                pin.m_NamePinData?.PinNameGameObject?.SetActive(shouldPinRender);
+                pin.m_uiElement?.gameObject.SetActive(shouldPinRender);
+            });
         }
     }
 }

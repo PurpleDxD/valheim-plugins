@@ -100,28 +100,6 @@ namespace Purps.Valheim.Locator {
                     "Inclusion list for leviathans."), false);
         }
 
-        private static void CreateCommandFromConfig<T>(ConfigData<T> configData, Action<string[]> action = null) {
-            BasePlugin.CommandProcessor.AddCommand(new Command(
-                $"/{configData.Key}", configData.Description,
-                action ?? (parameters => SetValue(configData, parameters))));
-        }
-
-        private static void SetValue<T>(ConfigData<T> configData, string[] parameters) {
-            switch (configData.value) {
-                case bool value:
-                    value ^= true;
-                    configData.value = (T) (object) value;
-                    break;
-                case float value:
-                    if (parameters.Length > 0f && float.TryParse(parameters[0], out var parsedParameter))
-                        configData.value = (T) (object) parsedParameter;
-                    break;
-                case string[] value:
-                    MinimapUtils.SetPinFilters(value);
-                    break;
-            }
-        }
-
         private ConfigData<string[]> GetPinFilters(string name, string description) {
             var configString = plugin.Config.Bind("Pins", name, "", description).Value;
 
@@ -157,6 +135,16 @@ namespace Purps.Valheim.Locator {
                     return new TrackedObject(properties[0], properties[1], shouldTrack);
 
             throw new MappingException($"Failed to load property {name}.");
+        }
+
+        protected override void handleCustomData<T>(ConfigData<T> configData)
+        {
+            switch (configData.value)
+            {
+                case string[] value:
+                    MinimapUtils.SetPinFilters(value);
+                    break;
+            }
         }
     }
 }

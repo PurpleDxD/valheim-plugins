@@ -13,10 +13,7 @@ namespace Purps.Valheim.Locator {
     public class LocatorPlugin : BasePlugin {
         private const string PluginGuid = "purps.valheim.locator";
         private const string PluginName = "Locator";
-        private const string PluginVersion = "1.0.9";
-
-        private const string Description = "Finds and pins various Valheim locations / entities on the minimap!";
-        private const string Author = "Purps";
+        private const string PluginVersion = "1.1.0";
 
         public static readonly int CastMask = LayerMask.GetMask("item", "player", "Default", "static_solid",
             "Default_small",
@@ -43,6 +40,7 @@ namespace Purps.Valheim.Locator {
         protected override void PluginAwake() {
             DebugStyle.normal.textColor = Color.green;
             DebugStyle.fontSize = 15;
+
             CreateCommands();
             MinimapUtils.OnAwake();
         }
@@ -59,6 +57,7 @@ namespace Purps.Valheim.Locator {
                 parameters => WorldUtils.Locate(Minimap.PinType.Icon3, new List<Tuple<string, string>> {
                     Tuple.Create("Vendor_BlackForest", "Merchant")
                 }, false)));
+
             CommandProcessor.AddCommand(new Command("/locatebosses", "Pins all boss altars on your Minimap.",
                 parameters => WorldUtils.Locate(Minimap.PinType.Boss, new List<Tuple<string, string>> {
                     Tuple.Create("Eikthyrnir", "Eikthyr"),
@@ -76,7 +75,7 @@ namespace Purps.Valheim.Locator {
                 MinimapUtils.ListPins));
             CommandProcessor.AddCommand(new Command("/clearpins", "Clears all your Pins.",
                 MinimapUtils.ClearPins));
-            CommandProcessor.AddCommand(new Command("/pinfilters", "", MinimapUtils.SetPinFilters));
+            CommandProcessor.AddCommand(new Command("/filterpins", "Filters your minimap pins using the provided names.", MinimapUtils.SetPinFilters));
         }
 
         protected override BaseConfig GetConfig() {

@@ -2,6 +2,7 @@
 using HarmonyLib;
 using Purps.Valheim.Framework.Commands;
 using Purps.Valheim.Framework.Config;
+using System.Collections.Generic;
 
 namespace Purps.Valheim.Framework {
     public abstract class BasePlugin : BaseUnityPlugin {
@@ -43,6 +44,11 @@ namespace Purps.Valheim.Framework {
 
         public static void ExecuteCommand(string text) {
             CommandProcessor.ExecuteCommand(text);
+        }
+
+        public static List<ICommand> GetCommands()
+        {
+            return CommandProcessor.Commands;
         }
     }
 }

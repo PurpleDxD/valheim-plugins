@@ -4,19 +4,16 @@ using Purps.Valheim.Framework.Utils;
 
 namespace Purps.Valheim.SkipIntro {
     public class SkipIntroConfig : BaseConfig {
-        private bool skipIntro;
-
         public SkipIntroConfig(BasePlugin plugin) : base(plugin) {
-            skipIntro = plugin.Config.Bind("Default", "skip", true,
-                "Defines whether or not the Valkyrie scene (intro) should be skipped.").Value;
+            CreateCommandFromConfig(
+                ReadValueFromConfig(
+                    new ConfigData<bool>("Default", "skip",
+                        "Defines whether or not the Valkyrie scene (intro) should be skipped.", true)));
         }
 
-        public bool SkipIntro {
-            get => skipIntro;
-            set {
-                skipIntro = value;
-                ConsoleUtils.WriteToConsole($"SkipIntro: {SkipIntro}");
-            }
+        protected override void handleCustomData<T>(ConfigData<T> configData)
+        {
+            return;
         }
     }
 }
